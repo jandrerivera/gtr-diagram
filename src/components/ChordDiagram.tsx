@@ -1,17 +1,16 @@
 import TuningDisplay from './TuningDisplay';
-import NoteOverlay from './NoteOverlay';
+import NoteOverlayGrid from './NoteOverlayGrid';
 
 const ChordDiagram = () => {
   return (
     <div
       className={`
-        
-        w-full max-w-md aspect-[100/120] rounded-lg
         flex flex-col justify-start items-stretch
+        w-full max-w-lg aspect-[100/120] rounded-lg
       `}
     >
       <TuningDisplay />
-      <NoteOverlay />
+      <NoteOverlayGrid />
     </div>
   );
 };

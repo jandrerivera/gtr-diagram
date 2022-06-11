@@ -6,7 +6,7 @@ const Strings: React.FC<StringsProps> = ({ strings }) => {
   return (
     <div
       className={`
-        absolute inset-0
+        absolute inset-0  -mx-1
         flex flex-row justify-between
       `}
       // grid grid-cols-5 grid-rows-1 items-end
