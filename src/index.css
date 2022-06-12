@@ -4,6 +4,7 @@
 
 .note-overlay-grid {
   display: grid;
+  grid-gap: 4px;
   grid-template-columns: 2fr repeat(12, minmax(0, 1fr)) 2fr;
   grid-template-rows: 2rem 3fr 1fr repeat(5, minmax(0, 4fr));
   grid-template-areas:

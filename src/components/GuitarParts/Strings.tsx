@@ -9,7 +9,6 @@ const Strings: React.FC<StringsProps> = ({ strings }) => {
         absolute inset-0  -mx-1
         flex flex-row justify-between
       `}
-      // grid grid-cols-5 grid-rows-1 items-end
     >
       {[...Array(strings)].map((_, i) => (
         <String key={i} i={i} />

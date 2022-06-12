@@ -1,9 +1,6 @@
-import React from 'react';
-
-const Nut: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ style }) => {
+const Nut: React.FC<{}> = ({}) => {
   return (
     <div
-      style={style}
       className={`
           note-overlay__nut
           relative z-0 pointer-events-none
@@ -12,4 +9,5 @@ const Nut: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ style }) => {
     />
   );
 };
+
 export default Nut;

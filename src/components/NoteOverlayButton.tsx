@@ -15,7 +15,7 @@ const displaySymbols: DisplaySymbolsType = {
 const displayIndex = Object.keys(displaySymbols);
 
 interface NoteOverlayButtonTypes {
-  pos: number;
+  pos: string;
 }
 
 const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
@@ -33,10 +33,12 @@ const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
     <button
       value={pos}
       className={`
+        bg-pink-500 opacity-50
       hover:bg-cyan-400 hover:bg-opacity-50
-        w-full h-full
+        w-full h-full 
         flex justify-center items-center
       `}
+      style={{ gridArea: pos }}
       onClick={cycleSymbol}
     >
       {displaySymbols[symbolIndex[0]]}

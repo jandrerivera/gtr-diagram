@@ -1,14 +1,8 @@
 import TuningDisplay from './TuningDisplay';
-import Nut from './Nut';
-import Fretboard from './Fretboard';
 import NoteOverlayButton from './NoteOverlayButton';
-
-import { getColLetter } from '../utils/helpers/grid';
-
-type NoteOverlayProps = {
-  frets: number;
-  strings: number;
-};
+import Fretboard from './GuitarParts/Fretboard';
+import Nut from './GuitarParts/Nut';
+import { getPos } from '../utils/helpers/grid';
 
 const NoteOverlayGrid = () => {
   const config = {
@@ -19,43 +13,38 @@ const NoteOverlayGrid = () => {
   return (
     <div
       className={`
-          grow relative z-10
           note-overlay-grid
+          grow relative z-10
         `}
     >
       <TuningDisplay />
       <Nut />
       <Fretboard strings={config.noOfStrings} frets={config.noOfFrets} />
 
-      {[...Array(config.noOfStrings)].map((_, i) => (
-        <NoteOverlayCol key={i} fretsCount={config.noOfFrets + 1} currentString={i} />
+      {[...Array(config.noOfStrings)].map((_, string) => (
+        <NoteOverlayCol key={string} frets={config.noOfFrets + 1} string={string} />
       ))}
     </div>
   );
 };
-export default NoteOverlayGrid;
 
-interface NoteOverlayColProps {
-  fretsCount: number;
-  currentString: number;
-}
-
-const NoteOverlayCol: React.FC<NoteOverlayColProps> = ({ fretsCount, currentString }) => {
+const NoteOverlayCol: React.FC<{
+  frets: number;
+  string: number;
+}> = ({ frets, string }) => {
   return (
     <>
-      {[...Array(fretsCount)].map((_, fretPos) => (
+      {[...Array(frets)].map((_, fret) => (
         <div
-          key={fretPos}
-          className={`
-             relative z-10
-          `}
-          style={{
-            gridArea: `pos${getColLetter(currentString + 1)}${fretPos}`,
-          }}
+          key={fret}
+          className={` relative z-10 `}
+          style={{ gridArea: `${getPos(fret, string)}` }}
         >
-          <NoteOverlayButton pos={currentString * fretsCount + fretPos} />
+          <NoteOverlayButton pos={getPos(fret, string)} />
         </div>
       ))}
     </>
   );
 };
+
+export default NoteOverlayGrid;

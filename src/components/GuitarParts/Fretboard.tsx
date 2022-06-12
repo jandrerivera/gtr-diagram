@@ -1,4 +1,5 @@
 import Strings from './Strings';
+import Frets from './Frets';
 
 type FretboardProps = {
   frets: number;
@@ -25,32 +26,3 @@ const Fretboard: React.FC<FretboardProps> = ({ frets, strings }) => {
   );
 };
 export default Fretboard;
-
-type FretsProps = {
-  frets: number;
-};
-
-const Frets: React.FC<FretsProps> = ({ frets }) => {
-  return (
-    <div
-      className={`
-        w-full h-full 
-        grid grid-rows-5 items-start -mb-1
-      `}
-    >
-      {[...Array(frets)].map((_, key) => (
-        <Fretwire key={key} />
-      ))}
-    </div>
-  );
-};
-
-const Fretwire = () => {
-  return (
-    <div
-      className={`
-        w-full bg-slate-400 h-1
-      `}
-    />
-  );
-};

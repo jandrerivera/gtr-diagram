@@ -1,4 +1,5 @@
 interface CircleProps {
+  pos?: string;
   type?: 'full' | 'outline';
   label?: String;
 }
@@ -16,8 +17,17 @@ const CLASS_NAMES = {
       `,
 };
 
-const Circle: React.FC<CircleProps> = ({ type = 'full', label = '' }) => {
-  return <div className={CLASS_NAMES[type]}>{label}</div>;
+const Circle: React.FC<CircleProps> = ({ pos, type = 'full', label = '' }) => {
+  return (
+    <div
+      className={CLASS_NAMES[type]}
+      // style={{
+      //   gridArea: pos,
+      // }}
+    >
+      {label}
+    </div>
+  );
 };
 
 export default Circle;
