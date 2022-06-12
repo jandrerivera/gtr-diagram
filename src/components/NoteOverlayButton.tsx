@@ -32,8 +32,8 @@ const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
   return (
     <button
       value={pos}
-      // hover:bg-cyan-400 hover:bg-opacity-50
       className={`
+      hover:bg-cyan-400 hover:bg-opacity-50
         w-full h-full
         flex justify-center items-center
       `}

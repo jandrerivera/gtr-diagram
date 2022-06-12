@@ -1,6 +1,9 @@
+import TuningDisplay from './TuningDisplay';
 import Nut from './Nut';
 import Fretboard from './Fretboard';
 import NoteOverlayButton from './NoteOverlayButton';
+
+import { getColLetter } from '../utils/helpers/grid';
 
 type NoteOverlayProps = {
   frets: number;
@@ -16,14 +19,12 @@ const NoteOverlayGrid = () => {
   return (
     <div
       className={`
-        grow 
-        grid grid-cols-12 relative z-10 grid-flow-col gap-y-1 gap-x-1
-      `}
-      style={{
-        gridTemplateRows: '3fr 1fr repeat(5, minmax(0, 4fr))',
-      }}
+          grow relative z-10
+          note-overlay-grid
+        `}
     >
-      <Nut style={{ gridArea: '2/2/2/12' }} />
+      <TuningDisplay />
+      <Nut />
       <Fretboard strings={config.noOfStrings} frets={config.noOfFrets} />
 
       {[...Array(config.noOfStrings)].map((_, i) => (
@@ -40,8 +41,6 @@ interface NoteOverlayColProps {
 }
 
 const NoteOverlayCol: React.FC<NoteOverlayColProps> = ({ fretsCount, currentString }) => {
-  const columnPos = currentString * 2; //we use two columns per string...
-
   return (
     <>
       {[...Array(fretsCount)].map((_, fretPos) => (
@@ -51,8 +50,7 @@ const NoteOverlayCol: React.FC<NoteOverlayColProps> = ({ fretsCount, currentStri
              relative z-10
           `}
           style={{
-            gridRow: fretPos >= 1 ? fretPos + 2 : fretPos + 1,
-            gridColumn: `${columnPos + 1}/${columnPos + 3}`,
+            gridArea: `pos${getColLetter(currentString + 1)}${fretPos}`,
           }}
         >
           <NoteOverlayButton pos={currentString * fretsCount + fretPos} />

@@ -11,7 +11,7 @@ const ExportRegion: React.FC<ExportRegionTypes> = ({ children }) => {
       id='exportRegion'
       className={`
           pt-4 pb-6 px-4 bg-white
-          w-full h-full max-w-2xl max-h-[50rem]
+          w-full h-full max-w-3xl max-h-[50rem]
           flex flex-col justify-center items-center
         `}
     >

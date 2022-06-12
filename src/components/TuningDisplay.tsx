@@ -3,6 +3,7 @@ const TuningDisplay = () => {
   return (
     <ul
       className={`
+        note-overlay__tuning-display
         flex flex-row justify-around
       `}
     >
@@ -10,8 +11,8 @@ const TuningDisplay = () => {
         <li
           key={key}
           className={`
-          text-center text-2xl text-slate-400 font-bold
-        `}
+            text-center text-2xl text-slate-400 font-bold
+          `}
         >
           {note}
         </li>
