@@ -1,14 +1,15 @@
 import TuningDisplay from './TuningDisplay';
 import NoteOverlayButton from './NoteOverlayButton';
+import NoteOverlayCell from './NoteOverlayCell';
 import Fretboard from './GuitarParts/Fretboard';
 import Nut from './GuitarParts/Nut';
-import { getPos } from '../utils/helpers/grid';
+
+import useStore from '../store/store';
 
 const NoteOverlayGrid = () => {
-  const config = {
-    noOfFrets: 5,
-    noOfStrings: 6,
-  };
+  const { stringsCount, fretsCount } = useStore((state) => state.config);
+  const gridCoordinates = useStore((state) => state.gridCoordinates);
+  const notePositions = useStore((state) => state.getNotePositionsArr());
 
   return (
     <div
@@ -19,31 +20,16 @@ const NoteOverlayGrid = () => {
     >
       <TuningDisplay />
       <Nut />
-      <Fretboard strings={config.noOfStrings} frets={config.noOfFrets} />
+      <Fretboard strings={stringsCount} frets={fretsCount} />
 
-      {[...Array(config.noOfStrings)].map((_, string) => (
-        <NoteOverlayCol key={string} frets={config.noOfFrets + 1} string={string} />
+      {gridCoordinates.map(({ pos, string, fret }, key) => (
+        <NoteOverlayButton key={key} pos={pos} />
+      ))}
+
+      {notePositions.map((note, key) => (
+        <NoteOverlayCell key={key} note={note} />
       ))}
     </div>
-  );
-};
-
-const NoteOverlayCol: React.FC<{
-  frets: number;
-  string: number;
-}> = ({ frets, string }) => {
-  return (
-    <>
-      {[...Array(frets)].map((_, fret) => (
-        <div
-          key={fret}
-          className={` relative z-10 `}
-          style={{ gridArea: `${getPos(fret, string)}` }}
-        >
-          <NoteOverlayButton pos={getPos(fret, string)} />
-        </div>
-      ))}
-    </>
   );
 };
 

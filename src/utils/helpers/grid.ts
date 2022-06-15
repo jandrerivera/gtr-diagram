@@ -4,5 +4,5 @@ export const getColLetter = (n: number): string => {
 };
 
 export const getPos = (fret: number, string: number): string => {
-  return `pos${getColLetter(string + 1)}${fret}`;
+  return `pos${getColLetter(string)}${fret}`;
 };

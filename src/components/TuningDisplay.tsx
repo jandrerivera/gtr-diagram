@@ -1,5 +1,8 @@
+import useStore from '../store/store';
+
 const TuningDisplay = () => {
-  const tuning = ['E', 'A', 'D', 'G', 'B', 'E'];
+  const tuning = useStore((state) => state.tuning);
+
   return (
     <ul
       className={`
