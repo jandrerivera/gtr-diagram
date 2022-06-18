@@ -10,9 +10,9 @@ const ExportRegion: React.FC<ExportRegionTypes> = ({ children }) => {
     <div
       id='exportRegion'
       className={`
-          pt-4 pb-6 px-4 bg-white
-          w-full h-full max-w-3xl max-h-[50rem]
-          flex flex-col justify-center items-center
+          flex max-h-[50rem] w-full max-w-3xl
+          flex-col items-center justify-center
+          bg-white
         `}
     >
       {children}

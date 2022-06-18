@@ -1,4 +1,3 @@
-import TuningDisplay from './TuningDisplay';
 import NoteOverlayButton from './NoteOverlayButton';
 import NoteOverlayCell from './NoteOverlayCell';
 import Fretboard from './GuitarParts/Fretboard';
@@ -15,10 +14,10 @@ const NoteOverlayGrid = () => {
     <div
       className={`
           note-overlay-grid
-          grow relative z-10
+          relative z-10
+          grow
         `}
     >
-      <TuningDisplay />
       <Nut />
       <Fretboard strings={stringsCount} frets={fretsCount} />
 

@@ -6,9 +6,8 @@
   display: grid;
   grid-gap: 4px;
   grid-template-columns: 2fr repeat(12, minmax(0, 1fr)) 2fr;
-  grid-template-rows: 2rem 3fr 1fr repeat(5, minmax(0, 4fr));
+  grid-template-rows: 4fr 1fr repeat(5, minmax(0, 4fr));
   grid-template-areas:
-    '. tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning .'
     '. posA0 posA0 posB0 posB0 posC0 posC0 posD0 posD0 posE0 posE0 posF0 posF0 .'
     '. . nut  nut nut nut nut nut nut nut nut nut . .'
     'fret1  posA1 posA1 posB1 posB1 posC1 posC1 posD1 posD1 posE1 posE1 posF1 posF1 .'
@@ -18,13 +17,20 @@
     'fret5  posA5 posA5 posB5 posB5 posC5 posC5 posD5 posD5 posE5 posE5 posF5 posF5 .';
 }
 
-.note-overlay__tuning-display {
-  grid-area: tuning;
-}
-
 .note-overlay__nut {
   grid-area: nut;
 }
 .note-overlay__fretboard {
-  grid-area: 4 / 3 / 9 / -3;
+  grid-area: 3 / 3 / 9 / -3;
+}
+
+.tuning-display--wrapper {
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: 2fr repeat(12, minmax(0, 1fr)) 2fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: '. tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning .';
+}
+.tuning-display {
+  grid-area: tuning;
 }

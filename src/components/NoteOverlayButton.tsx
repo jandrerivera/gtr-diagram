@@ -30,12 +30,13 @@ const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
   return (
     <button
       value={pos}
-      // bg-pink-500 opacity-50
       className={`
         relative z-30
-      hover:bg-cyan-400 hover:bg-opacity-50
-        w-full h-full 
-        flex justify-center items-center
+        m-1
+        rounded-lg
+        opacity-50
+        hover:bg-cyan-400
+        hover:bg-opacity-75
       `}
       style={{ gridArea: pos }}
       onClick={cycleSymbol}

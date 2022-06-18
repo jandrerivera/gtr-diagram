@@ -23,9 +23,10 @@ const NoteOverlayCell: React.FC<NoteOverlayCellTypes> = ({ note }) => {
   return (
     <div
       className={`
-          relative z-20
-          w-full h-full
-          flex justify-center items-center
+          pointer-events-none relative
+          z-50 flex
+          h-full w-full items-center
+          justify-center
         `}
       style={{ gridArea: note.pos }}
     >

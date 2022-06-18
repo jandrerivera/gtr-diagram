@@ -12,13 +12,13 @@ const Fretboard: React.FC<FretboardProps> = ({ frets, strings }) => {
       className={`
           note-overlay__fretboard
           pointer-events-none
-          rounded-b-lg relative z-0 -my-1 -mx-1
-          bg-white drop-shadow-2xl
-          flex flex-col justify-center
-          border-x-4 border-b-4 border-slate-400
+          relative z-0 -mx-1 -mt-1 flex
+          flex-col justify-center
+          rounded-b-lg border-x-4 border-b-4
+          border-slate-400 bg-white drop-shadow-2xl
         `}
     >
-      <div className='grow relative z-0'>
+      <div className='relative z-0 grow'>
         <Strings strings={strings} />
         <Frets frets={frets} />
       </div>

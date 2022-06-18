@@ -2,32 +2,38 @@ import { useEffect, useRef } from 'react';
 
 import ExportRegion from './components/ExportRegion';
 import ChordDiagram from './components/ChordDiagram';
-import ChordLabel from './components/ChordLabel';
 
 import './index.css';
 import ControlsMenu from './components/ControlsMenu';
 import useStore from './store/store';
 
-function App() {
-  const config = useStore((state) => state.setConfig);
+export const defaultSettings = {
+  stringsCount: 6,
+  fretsCount: 5,
+  defaultChordLabel: 'Cmaj7',
+};
 
-  config({
-    stringsCount: 6,
-    fretsCount: 5,
-  });
+function App() {
+  const { setConfig } = useStore((state) => state.config);
+
+  useEffect(() => {
+    if (!setConfig) return;
+
+    setConfig(defaultSettings);
+  }, []);
 
   return (
-    <div
-      className={`
-        flex flex-col justify-center items-center overflow-auto
-        w-screen h-screen p-4 
-      `}
-    >
+    <div className='flex h-screen min-h-[800px] w-screen flex-col p-2'>
       <ControlsMenu />
-      <ExportRegion>
-        {/* <ChordLabel /> */}
-        <ChordDiagram />
-      </ExportRegion>
+      <div
+        className={`
+          flex grow flex-col items-center justify-center p-4 
+        `}
+      >
+        <ExportRegion>
+          <ChordDiagram />
+        </ExportRegion>
+      </div>
     </div>
   );
 }
