@@ -59,7 +59,7 @@ const ChordLabel = () => {
     <div
       ref={wrapperDivRef}
       className={`
-        relative mx-auto mb-[0.25em]
+        relative mx-auto mb-8
         w-[62.5%] border-slate-700
         text-[9.5vw] font-bold md:text-7xl
       `}
@@ -79,9 +79,11 @@ const ChordLabel = () => {
         </div>
         <input
           type='text'
+          name='chordName'
           className={`
-            ${showInputField ? 'z-40' : 'z-20'}
+            ${showInputField ? 'opacity-100' : 'opacity-0'}
             relative
+            z-40
             mx-auto
             block
             w-full rounded-xl
@@ -91,6 +93,7 @@ const ChordLabel = () => {
             shadow-inner outline-none
           `}
           value={inputValue}
+          autoComplete='off'
           onClick={() => setShowInputField(true)}
           onChange={onChangeHandler}
         />
@@ -104,8 +107,7 @@ const ChordLabel = () => {
           <button
             type='button'
             className={`
-              h-12 w-12
-              overflow-hidden
+              h-12 w-12 overflow-hidden
               rounded-full bg-slate-200 p-1
             `}
             onClick={onCancelHandler}
@@ -117,7 +119,8 @@ const ChordLabel = () => {
             className={`
               h-12 w-12
               overflow-hidden
-              rounded-full bg-slate-200 p-1
+              rounded-full bg-slate-200
+              p-1 
             `}
           >
             <FaCheckCircle className='h-full w-auto fill-green-600' title='Save Changes' />

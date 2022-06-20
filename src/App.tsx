@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   return (
-    <div className='flex h-screen min-h-[800px] w-screen flex-col p-2'>
+    <div className='flex h-screen min-h-screen w-screen flex-col p-2'>
       <ControlsMenu />
       <div
         className={`

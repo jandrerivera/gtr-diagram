@@ -10,7 +10,6 @@ const TuningDisplay = () => {
           <li
             key={key}
             className={`
-              
               text-center text-[4vw] font-bold text-slate-400 md:text-2xl
             `}
           >
