@@ -8,13 +8,13 @@
   grid-template-columns: 2fr repeat(12, minmax(0, 1fr)) 2fr;
   grid-template-rows: 4fr 1fr repeat(5, minmax(0, 4fr));
   grid-template-areas:
-    '. posA0 posA0 posB0 posB0 posC0 posC0 posD0 posD0 posE0 posE0 posF0 posF0 .'
-    '. . nut  nut nut nut nut nut nut nut nut nut . .'
-    'fret1  posA1 posA1 posB1 posB1 posC1 posC1 posD1 posD1 posE1 posE1 posF1 posF1 .'
-    'fret2  posA2 posA2 posB2 posB2 posC2 posC2 posD2 posD2 posE2 posE2 posF2 posF2 .'
-    'fret3  posA3 posA3 posB3 posB3 posC3 posC3 posD3 posD3 posE3 posE3 posF3 posF3 .'
-    'fret4  posA4 posA4 posB4 posB4 posC4 posC4 posD4 posD4 posE4 posE4 posF4 posF4 .'
-    'fret5  posA5 posA5 posB5 posB5 posC5 posC5 posD5 posD5 posE5 posE5 posF5 posF5 .';
+    '.     posA0 posA0 posB0 posB0 posC0 posC0 posD0 posD0 posE0 posE0 posF0 posF0 .'
+    '.     .     nut   nut   nut   nut   nut   nut   nut   nut   nut   nut   .     .'
+    'fret1 posA1 posA1 posB1 posB1 posC1 posC1 posD1 posD1 posE1 posE1 posF1 posF1 .'
+    'fret2 posA2 posA2 posB2 posB2 posC2 posC2 posD2 posD2 posE2 posE2 posF2 posF2 .'
+    'fret3 posA3 posA3 posB3 posB3 posC3 posC3 posD3 posD3 posE3 posE3 posF3 posF3 .'
+    'fret4 posA4 posA4 posB4 posB4 posC4 posC4 posD4 posD4 posE4 posE4 posF4 posF4 .'
+    'fret5 posA5 posA5 posB5 posB5 posC5 posC5 posD5 posD5 posE5 posE5 posF5 posF5 .';
 }
 
 .note-overlay__nut {
