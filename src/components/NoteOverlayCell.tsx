@@ -1,4 +1,4 @@
-import { Circle, Crossmark } from './NoteDisplayTypes';
+import { Circle, Crossmark, Barre } from './NoteDisplayTypes';
 
 import { NoteType } from '../store/store';
 
@@ -8,6 +8,7 @@ interface DisplaySymbolsType {
 
 const displaySymbols: DisplaySymbolsType = {
   empty: null,
+  barre: <Barre />,
   ball: <Circle type='full' />,
   circle: <Circle type='outline' />,
   cross: <Crossmark />,

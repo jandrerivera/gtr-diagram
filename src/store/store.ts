@@ -3,7 +3,8 @@ import create from 'zustand';
 import { getPos } from '../utils/helpers/grid';
 import produce from 'immer';
 
-export type NoteType = { pos: string; style: string };
+export type GridCoordinateType = { pos: string; fret: number; string: number };
+export type NoteType = GridCoordinateType & { style: string };
 
 interface GlobalStateType {
   config: {
@@ -23,11 +24,7 @@ interface GlobalStateType {
   setChordLabel: (payload: string) => void;
   toggleChordLabel: () => void;
 
-  gridCoordinates: {
-    pos: string;
-    fret: number;
-    string: number;
-  }[];
+  gridCoordinates: GridCoordinateType[];
   buildGridCoordinates: () => void;
 
   notePositions: {
@@ -76,12 +73,17 @@ const useStore = create<GlobalStateType>((set, get) => ({
 
   notePositions: {},
   getNotePositionsArr: () => Object.values(get().notePositions),
-  setNotePosition: (notes) =>
-    set((state) => {
+  setNotePosition: (note) => {
+    if (note.style === 'default') {
+      note.style = note.fret === 0 ? 'circle' : 'ball';
+    }
+
+    return set((state) => {
       const newState = { ...state.notePositions };
-      newState[notes.pos] = notes;
+      newState[note.pos] = note;
       return { notePositions: newState };
-    }),
+    });
+  },
   unsetNotePosition: (pos) => {
     set((state) => {
       const newState = { ...state.notePositions };

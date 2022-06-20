@@ -1,18 +1,20 @@
 import { useState } from 'react';
 
 import useStore from '../store/store';
-import { displaySymbolTypes } from './NoteOverlayCell';
+import type { GridCoordinateType } from '../store/store';
+
+// import { displaySymbolTypes } from './NoteOverlayCell';
 
 interface NoteOverlayButtonTypes {
-  pos: string;
+  note: GridCoordinateType;
 }
 
-const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
-  const setNotePosition = useStore((state) => state.setNotePosition);
+const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ note }) => {
   const posHasNote = useStore((state) => state.posHasNote);
+  const setNotePosition = useStore((state) => state.setNotePosition);
   const unsetNotePosition = useStore((state) => state.unsetNotePosition);
 
-  const [symbolIndex, setSymbolIndex] = useState(displaySymbolTypes);
+  // const [symbolIndex, setSymbolIndex] = useState(displaySymbolTypes);
 
   // const cycleSymbol = () => {
   //   const newSymbolOrder = [...symbolIndex];
@@ -29,17 +31,17 @@ const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
   // };
 
   const toggleSymbol = () => {
-    if (posHasNote(pos)) {
-      unsetNotePosition(pos);
+    if (posHasNote(note.pos)) {
+      unsetNotePosition(note.pos);
       return;
     }
 
-    setNotePosition({ pos, style: 'ball' });
+    setNotePosition({ ...note, style: 'default' });
   };
 
   return (
     <button
-      value={pos}
+      value={note.pos}
       className={`
         relative z-30
         m-1
@@ -48,7 +50,7 @@ const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
         hover:bg-cyan-400
         hover:bg-opacity-75
       `}
-      style={{ gridArea: pos }}
+      style={{ gridArea: note.pos }}
       onClick={toggleSymbol}
     />
   );

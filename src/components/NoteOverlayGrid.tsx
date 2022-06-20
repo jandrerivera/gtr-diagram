@@ -21,8 +21,8 @@ const NoteOverlayGrid = () => {
       <Nut />
       <Fretboard strings={stringsCount} frets={fretsCount} />
 
-      {gridCoordinates.map(({ pos, string, fret }, key) => (
-        <NoteOverlayButton key={key} pos={pos} />
+      {gridCoordinates.map((note, key) => (
+        <NoteOverlayButton key={key} note={note} />
       ))}
 
       {notePositions.map((note, key) => (
