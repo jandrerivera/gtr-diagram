@@ -8,9 +8,10 @@ import { defaultSettings } from '../App';
 
 const ChordLabel = () => {
   const wrapperDivRef = useRef<HTMLDivElement>(null);
-  const { enabled, typed, styled, setChordLabel, toggleChordLabel } = useStore(
-    (state) => state.chordLabel
-  );
+
+  const { enabled, typed, styled } = useStore((state) => state.chordLabel);
+  const setChordLabel = useStore((state) => state.setChordLabel);
+  const toggleChordLabel = useStore((state) => state.toggleChordLabel);
 
   const [inputValue, setInputValue] = useState(typed);
   const [showInputField, setShowInputField] = useState(false);

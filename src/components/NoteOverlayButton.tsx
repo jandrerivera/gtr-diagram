@@ -9,22 +9,32 @@ interface NoteOverlayButtonTypes {
 
 const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
   const setNotePosition = useStore((state) => state.setNotePosition);
+  const posHasNote = useStore((state) => state.posHasNote);
   const unsetNotePosition = useStore((state) => state.unsetNotePosition);
 
   const [symbolIndex, setSymbolIndex] = useState(displaySymbolTypes);
 
-  const cycleSymbol = () => {
-    const newSymbolOrder = [...symbolIndex];
-    const next = newSymbolOrder.shift() || 'X';
-    newSymbolOrder.push(next);
-    setSymbolIndex(newSymbolOrder);
+  // const cycleSymbol = () => {
+  //   const newSymbolOrder = [...symbolIndex];
+  //   const next = newSymbolOrder.shift() || 'X';
+  //   newSymbolOrder.push(next);
+  //   setSymbolIndex(newSymbolOrder);
 
-    if (newSymbolOrder[0] === 'empty') {
+  //   if (newSymbolOrder[0] === 'empty') {
+  //     unsetNotePosition(pos);
+  //     return;
+  //   }
+
+  //   setNotePosition({ pos, style: newSymbolOrder[0] });
+  // };
+
+  const toggleSymbol = () => {
+    if (posHasNote(pos)) {
       unsetNotePosition(pos);
       return;
     }
 
-    setNotePosition({ pos, style: newSymbolOrder[0] });
+    setNotePosition({ pos, style: 'ball' });
   };
 
   return (
@@ -39,7 +49,7 @@ const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ pos }) => {
         hover:bg-opacity-75
       `}
       style={{ gridArea: pos }}
-      onClick={cycleSymbol}
+      onClick={toggleSymbol}
     />
   );
 };

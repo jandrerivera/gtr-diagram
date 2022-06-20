@@ -14,7 +14,7 @@ export const defaultSettings = {
 };
 
 function App() {
-  const { setConfig } = useStore((state) => state.config);
+  const setConfig = useStore((state) => state.setConfig);
 
   useEffect(() => {
     if (!setConfig) return;

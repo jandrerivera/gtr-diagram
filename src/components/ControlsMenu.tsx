@@ -3,7 +3,7 @@ import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import useStore from '../store/store';
 
 const ControlsMenu = () => {
-  const { toggleChordLabel } = useStore((state) => state.chordLabel);
+  const toggleChordLabel = useStore((state) => state.toggleChordLabel);
 
   // console.log('draw');
 
