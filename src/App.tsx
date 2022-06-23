@@ -15,6 +15,13 @@ export const defaultSettings = {
 
 function App() {
   const setConfig = useStore((state) => state.setConfig);
+  // const notePositions = useStore((state) => state.getNotePositionsArr());
+  // console.log(notePositions);
+  // console.log(
+  //   notePositions.filter((item) => {
+  //     return item.style === 'BARRE_START';
+  //   }).length
+  // );
 
   useEffect(() => {
     if (!setConfig) return;

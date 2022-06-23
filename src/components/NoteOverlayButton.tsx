@@ -1,58 +1,91 @@
-import { useState } from 'react';
-
-import useStore from '../store/store';
-import type { GridCoordinateType } from '../store/store';
-
-// import { displaySymbolTypes } from './NoteOverlayCell';
+import React, { useEffect, useState } from 'react';
+import useMeasure from 'react-use-measure';
+import useStore, { GridCoordinateType } from '../store/store';
+import { getPos } from '../utils/grid';
+import BarreDragControl from './OverlayGridControls/BarreDragControls';
 
 interface NoteOverlayButtonTypes {
-  note: GridCoordinateType;
+  gridCoord: GridCoordinateType;
 }
 
-const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ note }) => {
-  const posHasNote = useStore((state) => state.posHasNote);
+const NoteOverlayButton: React.FC<NoteOverlayButtonTypes> = ({ gridCoord }) => {
+  const { pos, cssArea, fret, string } = gridCoord;
+
+  const posHasNote = useStore((state) => state.posHasNote(pos));
   const setNotePosition = useStore((state) => state.setNotePosition);
+  const getNoteAtPosition = useStore((state) => state.getNoteAtPosition);
   const unsetNotePosition = useStore((state) => state.unsetNotePosition);
+  const setBarrePosition = useStore((state) => state.setBarrePosition);
 
-  // const [symbolIndex, setSymbolIndex] = useState(displaySymbolTypes);
+  const [showBarreControls, setShowBarreControls] = useState(false);
+  const [buttonRef, buttonRefBounds] = useMeasure();
 
-  // const cycleSymbol = () => {
-  //   const newSymbolOrder = [...symbolIndex];
-  //   const next = newSymbolOrder.shift() || 'X';
-  //   newSymbolOrder.push(next);
-  //   setSymbolIndex(newSymbolOrder);
+  // if (posHasNote) {
+  //   const { style: symbolStyle } = getNoteAtPosition(pos);
+  // }
 
-  //   if (newSymbolOrder[0] === 'empty') {
-  //     unsetNotePosition(pos);
-  //     return;
-  //   }
+  const handleClick = (e: React.MouseEvent) => {
+    if (e.target !== e.currentTarget) return; //Stops dragging on Barre Control from setting a note
 
-  //   setNotePosition({ pos, style: newSymbolOrder[0] });
-  // };
+    // toggleSymbol();
 
-  const toggleSymbol = () => {
-    if (posHasNote(note.pos)) {
-      unsetNotePosition(note.pos);
+    if (posHasNote) {
+      const { style: symbolStyle } = getNoteAtPosition(pos);
+
+      if (symbolStyle === 'BARRE_END' || symbolStyle === 'BALL') {
+        setShowBarreControls(true);
+        return;
+      }
+
+      // if (symbolStyle !== 'dummy') {
+      //   removeSymbol();
+      //   return;
+      // }
+
       return;
     }
 
-    setNotePosition({ ...note, style: 'default' });
+    setSymbol();
+  };
+
+  // // const toggleSymbol = () => {
+  // //   if (posHasNote) {
+  // //     removeSymbol();
+  // //     return;
+  // //   }
+
+  // //   setSymbol();
+  // // };
+
+  const setSymbol = () => setNotePosition({ ...gridCoord, style: 'default' });
+  const removeSymbol = () => {
+    // if (showBarreControls) return;
+    unsetNotePosition(pos);
+  };
+
+  const setBarreNote = (span: number) => {
+    // unsetNotePosition(pos);
+    setShowBarreControls(false);
+
+    setBarrePosition(gridCoord, span);
   };
 
   return (
     <button
-      value={note.pos}
+      ref={buttonRef}
+      value={pos}
       className={`
-        relative z-30
-        m-1
-        rounded-lg
-        opacity-50
-        hover:bg-cyan-400
-        hover:bg-opacity-75
-      `}
-      style={{ gridArea: note.pos }}
-      onClick={toggleSymbol}
-    />
+        relative z-20
+        `}
+      // bg-opacity-20
+      style={{ gridArea: cssArea }}
+      onClick={handleClick}
+    >
+      {/* {pos} */}
+      {showBarreControls && (
+        <BarreDragControl parentBounds={buttonRefBounds} setBarreHandler={setBarreNote} />
+      )}
+    </button>
   );
 };
 

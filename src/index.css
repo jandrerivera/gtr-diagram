@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* * {
+  @apply bg-red-900 bg-opacity-10;
+} */
+
 .note-overlay-grid {
   display: grid;
   grid-gap: 4px;
@@ -22,6 +26,10 @@
 }
 .note-overlay__fretboard {
   grid-area: 3 / 3 / 9 / -3;
+}
+
+.note-overlay__dragArea {
+  grid-area: 3 / 2 / 9 / -2;
 }
 
 .tuning-display--wrapper {

@@ -1,3 +1,7 @@
+import useMeasure from 'react-use-measure';
+import { useEffect, useRef } from 'react';
+import useStore from '../../store/store';
+
 import Strings from './Strings';
 import Frets from './Frets';
 
@@ -25,4 +29,5 @@ const Fretboard: React.FC<FretboardProps> = ({ frets, strings }) => {
     </div>
   );
 };
+
 export default Fretboard;
