@@ -1,7 +1,7 @@
 import useStore from '../store/store';
 
 const TuningDisplay = () => {
-  const tuning = useStore((state) => state.tuning);
+  const { tuning } = useStore((state) => state.config);
 
   return (
     <div className='tuning-display--wrapper w-full'>

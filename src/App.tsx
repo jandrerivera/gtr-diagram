@@ -11,6 +11,7 @@ export const defaultSettings = {
   stringsCount: 6,
   fretsCount: 5,
   defaultChordLabel: 'Cmaj7',
+  tuning: ['E', 'A', 'D', 'G', 'B', 'E'],
 };
 
 function App() {
