@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useMeasure from 'react-use-measure';
-import useStore, { GridCoordinateType } from '../store/store';
+import useStore from '../store/store';
+import type { GridCoordinateType } from '../store/grid.slice';
 import { getPos } from '../utils/grid';
 import BarreDragControl from './OverlayGridControls/BarreDragControls';
 

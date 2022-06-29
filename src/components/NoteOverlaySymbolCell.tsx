@@ -1,5 +1,5 @@
 import { Circle, Crossmark, Barre } from './NoteDisplayTypes';
-import { NoteType } from '../store/store';
+import type { NoteType } from '../store/notes.slice';
 
 interface DisplaySymbolsType {
   [key: string]: JSX.Element | null;

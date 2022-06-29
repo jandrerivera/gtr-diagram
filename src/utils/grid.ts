@@ -1,4 +1,5 @@
-import type { GridPosKey, CssArea, ConfigType } from '../store/store';
+import type { GridPosKey, CssArea } from '../store/grid.slice';
+import type { ConfigType } from '../store/config.slice';
 
 export const getColLetter = (n: number): string => {
   var letter = String.fromCharCode(n + 64);

@@ -3,7 +3,6 @@ import useStore from '../../store/store';
 import useMeasure, { RectReadOnly } from 'react-use-measure';
 import { useSpring, animated } from 'react-spring';
 import { useDrag } from '@use-gesture/react';
-import { getDragBounds } from '../../utils/getDragBounds';
 import { CgArrowsH } from 'react-icons/cg';
 
 const BarreDragControl = ({
