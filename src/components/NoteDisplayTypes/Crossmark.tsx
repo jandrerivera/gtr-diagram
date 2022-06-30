@@ -1,8 +1,14 @@
-const Crossmark = () => {
+const CLASS_NAMES = `absolute top-1/2 h-3 w-full -translate-y-1/2 border-4 border-slate-700`;
+
+const Crossmark = ({ outline = false }: { outline?: boolean }) => {
   return (
     <div className='relative aspect-square h-3/5 rotate-45'>
-      <div className='absolute top-1/2 h-2 w-full -translate-y-1/2 bg-black' />
-      <div className='absolute top-1/2 h-2 w-full -translate-y-1/2 rotate-90 bg-black' />
+      {outline && (
+        <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-1 w-1/2 bg-white z-10' />
+      )}
+
+      <div className={`${CLASS_NAMES} ${outline ? 'bg-white' : 'bg-slate-700'}`} />
+      <div className={`${CLASS_NAMES} ${outline ? 'bg-white' : 'bg-slate-700'} rotate-90`} />
     </div>
   );
 };

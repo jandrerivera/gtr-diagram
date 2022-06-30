@@ -11,7 +11,7 @@ const ChordLabel = () => {
 
   const { enabled, typed, styled } = useStore((state) => state.chordLabel);
   const setChordLabel = useStore((state) => state.setChordLabel);
-  const toggleChordLabel = useStore((state) => state.toggleChordLabel);
+  const setChordLabelEnabled = useStore((state) => state.setChordLabelEnabled);
 
   const [inputValue, setInputValue] = useState(typed);
   const [showInputField, setShowInputField] = useState(false);
@@ -34,7 +34,7 @@ const ChordLabel = () => {
     setShowInputField(false);
 
     if (inputValue === '') {
-      toggleChordLabel();
+      setChordLabelEnabled();
     }
   };
 

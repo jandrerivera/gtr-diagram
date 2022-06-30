@@ -1,33 +1,29 @@
-import { Circle, Crossmark, Barre } from './NoteDisplayTypes';
+import useStore from '../store/store';
+
+import NoteDisplayTypes from './NoteDisplayTypes';
 import type { NoteType } from '../store/notes.slice';
 
-interface DisplaySymbolsType {
-  [key: string]: JSX.Element | null;
-}
-
 const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
-  const { cssArea, style, span } = note;
+  const { pos, fret, cssArea, symbol } = note;
+  const unsetNotePosition = useStore((state) => state.unsetNotePosition);
 
-  const displaySymbols: DisplaySymbolsType = {
-    BALL: <Circle />,
-    CIRCLE: <Circle type='outline' />,
-    CROSS: <Crossmark />,
-    BARRE_START: <Barre span={span} />,
-    BARRE_DUMMY: <></>,
-    BARRE_END: <></>,
+  const removeSymbol = () => {
+    // if (showBarreControls) return;
+    unsetNotePosition(pos);
   };
 
   return (
     <div
       className={`
-          relative z-10
+          relative z-20
           flex
           h-full w-full items-center
-          justify-center
+          justify-center cursor-pointer
         `}
       style={{ gridArea: cssArea }}
+      onClick={removeSymbol}
     >
-      {displaySymbols[style]}
+      <NoteDisplayTypes fret={fret} symbol={symbol} />
     </div>
   );
 };

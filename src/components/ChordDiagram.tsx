@@ -4,11 +4,11 @@ import TuningDisplay from './TuningDisplay';
 import useStore from '../store/store';
 
 const ChordDiagram = () => {
-  const { enabled: chordLabelenabled } = useStore((state) => state.chordLabel);
+  // const { enabled: chordLabelenabled } = useStore((state) => state.chordLabel);
 
   return (
     <>
-      {chordLabelenabled && <ChordLabel />}
+      {/* {chordLabelenabled && <ChordLabel />} */}
       <TuningDisplay />
 
       <div

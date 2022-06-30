@@ -10,7 +10,7 @@ export type ChordLabelSlice = {
     styled: string;
   };
   setChordLabel: (payload: string) => void;
-  toggleChordLabel: () => void;
+  setChordLabelEnabled: () => void;
 };
 
 export const createChordLabelSlice: StateCreator<State, Middlewares, [], ChordLabelSlice> = (
@@ -31,7 +31,7 @@ export const createChordLabelSlice: StateCreator<State, Middlewares, [], ChordLa
       false,
       'CHORD_LABEL/SET_LABEL'
     ),
-  toggleChordLabel: () =>
+  setChordLabelEnabled: () =>
     set(
       produce((state) => {
         state.chordLabel.enabled = !state.chordLabel.enabled;
