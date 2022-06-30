@@ -3,7 +3,7 @@ import Square from './Square';
 import Diamond from './Diamond';
 import Triangle from './Triangle';
 import Crossmark from './Crossmark';
-// import Barre from './Barre';
+import Barre from './Barre';
 
 import type { NoteSymbols, SymbolType } from '../../store/notes.slice';
 
@@ -26,7 +26,7 @@ const NoteDisplayTypes = ({ fret, symbol: { style } }: { fret: number; symbol: S
     DIAMOND_OUTLINE: <Diamond outline={true} />,
     TRIANGLE_OUTLINE: <Triangle outline={true} />,
     CROSS_OUTLINE: <Crossmark outline={true} />,
-    // BARRE_START: <Barre />,
+    BARRE: <Barre />,
     // BARRE_DUMMY: <></>,
     // BARRE_END: <></>,
   };

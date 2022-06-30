@@ -4,19 +4,9 @@ import useStore from '../store/store';
 import { NoteSymbols } from '../store/notes.slice';
 
 const ControlsMenu = () => {
-  const setSelectedControl = useStore((state) => state.setSelectedControl);
-
-  const symbolControls = Object.entries(NoteSymbols).filter(([name]) => name !== 'default');
-  // console.log(symbolControls);
+  const resetNotePositions = useStore((state) => state.resetNotePositions);
 
   // const toggleChordLabel = useStore((state) => state.toggleChordLabel);
-
-  // console.log('draw');
-
-  // const handleReset = () => {
-  //   console.log('reset');
-  // };
-  // const toggleChordLabel = () => {};
 
   // const handleExport = () => {
   //   const exportRegion = document.getElementById('exportRegion');
@@ -41,31 +31,28 @@ const ControlsMenu = () => {
   return (
     <ul
       className={`
-          mx-auto
-          mb-2 flex flex-col items-stretch justify-start
-          divide-y-2 divide-slate-500 overflow-auto rounded-lg
-          border-2
-          border-slate-500 bg-white
-          font-bold 
+          mx-auto mb-2
+          flex flex-col items-stretch justify-start
+          overflow-auto rounded-lg bg-white
+          border-2 divide-y-2 divide-slate-500 border-slate-500 
+          text-xs
           shadow-lg
           `}
     >
-      {symbolControls.map(([name, noteSymbol], key) => (
-        <li key={key}>
-          <button
-            onClick={() => setSelectedControl(noteSymbol)}
-            className='w-full py-2 px-4 text-slate-500 hover:bg-neutral-200 '
-          >
-            {name}
-          </button>
-        </li>
-      ))}
+      <li>
+        <SymbolSelectMenu />
+      </li>
 
-      {/* <li>
-          <button onClick={handleReset} className='py-2 px-4 text-slate-500 hover:bg-neutral-100'>
-            Reset
-          </button>
-        </li> */}
+      <li>
+        <button
+          onClick={resetNotePositions}
+          className={`
+            w-full py-2 px-4 bg-white text-slate-500 hover:bg-neutral-200
+          `}
+        >
+          Reset
+        </button>
+      </li>
       {/* <li>
         <button
           onClick={() => toggleChordLabel()}
@@ -85,4 +72,35 @@ const ControlsMenu = () => {
     </ul>
   );
 };
+
+const SymbolSelectMenu = () => {
+  const selectedControl = useStore((state) => state.selectedControl);
+  const setSelectedControl = useStore((state) => state.setSelectedControl);
+
+  const symbolControls = Object.entries(NoteSymbols).filter(([name]) => name !== 'default');
+
+  const onClickSymbolSelect = (clickedDymbol: NoteSymbols) => {
+    if (selectedControl === clickedDymbol) return setSelectedControl(NoteSymbols.default);
+    setSelectedControl(clickedDymbol);
+  };
+  return (
+    <div className='divide-y divide-slate-500'>
+      {symbolControls.map(([name, symbol], key) => (
+        <li key={key}>
+          <button
+            onClick={() => onClickSymbolSelect(symbol)}
+            className={`
+              w-full py-2 px-4 
+                ${selectedControl !== symbol && 'bg-white text-slate-500 hover:bg-neutral-200'}
+                ${selectedControl === symbol && 'bg-slate-500 text-slate-100 hover:bg-slate-400'}
+              `}
+          >
+            {name}
+          </button>
+        </li>
+      ))}
+    </div>
+  );
+};
+
 export default ControlsMenu;

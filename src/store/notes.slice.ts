@@ -9,6 +9,7 @@ export enum NoteSymbols {
   triangle = 'TRIANGLE',
   diamond = 'DIAMOND',
   cross = 'CROSS',
+  barre = 'BARRE',
   circleOutline = 'CIRCLE_OUTLINE',
   squareOutline = 'SQUARE_OUTLINE',
   triangleOutline = 'TRIANGLE_OUTLINE',
@@ -31,6 +32,7 @@ export type NotesSlice = {
   setNotePosition: (note: NoteType) => void;
   unsetNotePosition: (pos: GridPosKey) => void;
   getNoteAtPosition: (pos: GridPosKey) => NoteType;
+  resetNotePositions: () => void;
   // setBarrePosition: (startPos: GridCoordinateType, span: number) => void;
   // _moveToBarreStart: (currentPos: string) => NoteType | undefined;
   // _adjustForExistingBarreAtStart: (
@@ -41,6 +43,7 @@ export type NotesSlice = {
 
 export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> = (set, get) => ({
   notePositions: {},
+  resetNotePositions: () => set((state) => ({ ...state, notePositions: {} })),
   getPosHasNote: (pos) => {
     const notePositions = get().notePositions;
     return pos in notePositions;
