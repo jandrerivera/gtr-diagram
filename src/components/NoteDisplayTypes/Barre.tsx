@@ -42,12 +42,13 @@ const Barre = ({
         api.start({ to: { opacity: 0 }, onRest: () => setShowResizeControls(false) });
 
         if (!note) return;
+        if (span <= 1) return;
 
         const gridSpanSize = wrapBounds.width / span;
         const newSpan = Math.round(span - -mx / gridSpanSize);
-
-        if (span <= 1) return;
         setBarrePosition({ ...note, symbol: { style: note.symbol.style, span: newSpan } });
+
+        api.start({ to: { width: parentBounds.width } });
       }
     },
     { bounds: dragAreaRef }
