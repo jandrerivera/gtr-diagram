@@ -16,6 +16,7 @@ export type GridSlice = {
   getGridCoord: (fret: number, string: number, span?: number) => GridCoordinateType;
   getPos: (fret: number, string: number) => GridPosKey;
   getCssArea: (fret: number, string: number, span?: number) => CssArea;
+  getMaxSpanFromString: (string: number) => number;
   _generateCoordinateGrid: () => void;
   _movePos: (pos: GridPosKey, dir: 'left' | 'right', distance: number) => GridPosKey;
 };
@@ -36,12 +37,19 @@ export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = 
   },
 
   getCssArea: (fret, string, span = 1) => {
+    // const stringsCount = get().config.stringsCount;
+    // const maxSpan = get().getMaxSpanFromString;
+
+    // span = span > stringsCount ? maxSpan(string) : span;
+
     const posStart = `pos${getColLetter(string)}${fret}-start`;
     const posEnd = `pos${getColLetter(string + span - 1)}${fret}-end`;
 
     return `${posStart} / ${posStart} / ${posEnd} / ${posEnd} `;
   },
-
+  getMaxSpanFromString: (string) => {
+    return get().config.stringsCount - (string - 1);
+  },
   _generateCoordinateGrid: () => {
     let coords = [];
     const { fretsCount, stringsCount } = get().config;

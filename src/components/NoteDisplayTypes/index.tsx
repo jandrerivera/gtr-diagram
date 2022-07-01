@@ -4,7 +4,7 @@ import Diamond from './Diamond';
 import Triangle from './Triangle';
 import Crossmark from './Crossmark';
 import Barre from './Barre';
-
+import React from 'react';
 import type { NoteType, NoteSymbols, SymbolType } from '../../store/notes.slice';
 
 type DisplaySymbolsType = {
@@ -16,16 +16,19 @@ export type SymbolComponent = {
   outline?: boolean;
   label?: String;
   span?: number;
+  dragAreaRef?: React.RefObject<HTMLDivElement>;
   handleRemoveSelf: React.MouseEventHandler;
 };
 
 const NoteDisplayTypes = ({
   note,
   symbol: { style, span },
+  barreDragAreaRef,
   handleRemoveSelf,
 }: {
   note: NoteType;
   symbol: SymbolType;
+  barreDragAreaRef: React.RefObject<HTMLDivElement>;
   handleRemoveSelf: () => void;
 }) => {
   const DEFAULT_SYMBOL =
@@ -47,9 +50,22 @@ const NoteDisplayTypes = ({
     DIAMOND_OUTLINE: <Diamond outline={true} handleRemoveSelf={handleRemoveSelf} />,
     TRIANGLE_OUTLINE: <Triangle outline={true} handleRemoveSelf={handleRemoveSelf} />,
     CROSS_OUTLINE: <Crossmark outline={true} handleRemoveSelf={handleRemoveSelf} />,
-    BARRE: <Barre note={note} span={span} handleRemoveSelf={handleRemoveSelf} />,
+    BARRE: (
+      <Barre
+        note={note}
+        span={span}
+        handleRemoveSelf={handleRemoveSelf}
+        dragAreaRef={barreDragAreaRef}
+      />
+    ),
     BARRE_OUTLINE: (
-      <Barre note={note} span={span} outline={true} handleRemoveSelf={handleRemoveSelf} />
+      <Barre
+        note={note}
+        span={span}
+        outline={true}
+        handleRemoveSelf={handleRemoveSelf}
+        dragAreaRef={barreDragAreaRef}
+      />
     ),
   };
   return displaySymbols[style];
