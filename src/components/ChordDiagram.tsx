@@ -13,7 +13,7 @@ const ChordDiagram = () => {
 
       <div
         className={`
-        max-w-1xl flex aspect-[100/80] w-full flex-col
+        max-w-1xl flex aspect-[20/16] w-full flex-col
         items-stretch justify-start rounded-lg
       `}
       >

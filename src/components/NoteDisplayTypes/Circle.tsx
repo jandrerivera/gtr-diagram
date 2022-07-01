@@ -1,4 +1,6 @@
-const Circle = ({ outline = false, label = '' }: { outline?: boolean; label?: String }) => {
+import type { SymbolComponent } from './index';
+
+const Circle = ({ outline = false, label = '', handleRemoveSelf }: SymbolComponent) => {
   return (
     <div
       className={`
@@ -7,6 +9,7 @@ const Circle = ({ outline = false, label = '' }: { outline?: boolean; label?: St
         border-4 border-slate-700 
         ${outline ? 'bg-white text-bg-slate-700' : 'bg-slate-700 text-white'}
       `}
+      onClick={handleRemoveSelf}
     >
       {label}
     </div>

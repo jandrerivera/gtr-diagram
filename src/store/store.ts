@@ -20,14 +20,14 @@ const useStore = create<State>()(
         ...createControlsSlice(...a),
       }),
       {
-        name: 'zustand-store',
+        name: 'gtr-diagram-store',
         // serialize: (state) => btoa(JSON.stringify(state)),
         // deserialize: (str) => JSON.parse(atob(str)),
 
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(([key]) => {
-              const blacklist = ['set', 'get', 'Ref', '_'];
+              const blacklist = ['set', 'get', '_'];
               const containsBlacklistedWord = new RegExp(blacklist.join('|')).test(key);
               return !containsBlacklistedWord;
             })

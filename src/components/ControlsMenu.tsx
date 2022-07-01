@@ -84,7 +84,7 @@ const SymbolSelectMenu = () => {
     setSelectedControl(clickedDymbol);
   };
   return (
-    <div className='divide-y divide-slate-500'>
+    <ul className='divide-y divide-slate-500'>
       {symbolControls.map(([name, symbol], key) => (
         <li key={key}>
           <button
@@ -99,7 +99,7 @@ const SymbolSelectMenu = () => {
           </button>
         </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

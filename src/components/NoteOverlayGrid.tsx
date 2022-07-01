@@ -11,13 +11,6 @@ const NoteOverlayGrid = () => {
   const gridCoordinates = useStore((state) => state.gridCoordinates);
   const notePositions = useStore((state) => state.getNotePositionsArr());
 
-  const dragAreaRef = useRef<HTMLDivElement>(null);
-  const setDragAreaRef = useStore((state) => state.setDragAreaRef);
-
-  useEffect(() => {
-    setDragAreaRef(dragAreaRef);
-  }, [dragAreaRef]);
-
   return (
     <div
       className={`
@@ -26,11 +19,6 @@ const NoteOverlayGrid = () => {
           grow
         `}
     >
-      <div
-        ref={dragAreaRef}
-        className='note-overlay__dragArea bg-transparent pointer-events-none mx-2'
-      />
-
       <Nut />
       <Fretboard strings={stringsCount} frets={fretsCount} />
 
@@ -38,7 +26,7 @@ const NoteOverlayGrid = () => {
         <NoteOverlayButton key={key} gridCoord={gridCoord} />
       ))}
 
-      {notePositions.map((note, key, boundsRef) => (
+      {notePositions.map((note, key) => (
         <NoteOverlaySymbolCell key={key} note={note} />
       ))}
     </div>

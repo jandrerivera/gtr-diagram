@@ -18,8 +18,6 @@ export type GridSlice = {
   getGridCoord: (fret: number, string: number, span?: number) => GridCoordinateType;
   _generateCoordinateGrid: () => void;
   _movePos: (pos: GridPosKey, dir: 'left' | 'right', distance: number) => GridPosKey;
-  dragAreaRef: React.RefObject<HTMLDivElement> | undefined;
-  setDragAreaRef: (ref: React.RefObject<HTMLDivElement>) => void;
 };
 
 export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = (set, get) => ({
@@ -55,6 +53,4 @@ export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = 
     return `${posNum + (fretsCount + 1) * distance}`;
     // }
   },
-  dragAreaRef: undefined,
-  setDragAreaRef: (ref) => set({ dragAreaRef: ref }, false, 'GRID/SET_DRAG_AREA_REF'),
 });

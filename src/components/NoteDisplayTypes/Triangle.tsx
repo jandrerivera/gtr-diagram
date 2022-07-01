@@ -1,4 +1,6 @@
-const Triangle = ({ outline = false, label = '' }: { outline?: boolean; label?: String }) => {
+import type { SymbolComponent } from './index';
+
+const Triangle = ({ outline = false, label = '', handleRemoveSelf }: SymbolComponent) => {
   return (
     <div
       className={`
@@ -6,6 +8,7 @@ const Triangle = ({ outline = false, label = '' }: { outline?: boolean; label?: 
         rounded-full aspect-square h-3/5
         flex justify-center items-center
       `}
+      onClick={handleRemoveSelf}
     >
       <span
         className={`relative z-30 top-[15%] text-2xl font-bold ${

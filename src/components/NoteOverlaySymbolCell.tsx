@@ -1,16 +1,12 @@
 import useStore from '../store/store';
+import { NoteType } from '../store/notes.slice';
 
 import NoteDisplayTypes from './NoteDisplayTypes';
-import type { NoteType } from '../store/notes.slice';
 
 const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
-  const { pos, fret, cssArea, symbol } = note;
+  const { pos, cssArea, symbol } = note;
   const unsetNotePosition = useStore((state) => state.unsetNotePosition);
-
-  const removeSymbol = () => {
-    // if (showBarreControls) return;
-    unsetNotePosition(pos);
-  };
+  const removeSymbol = () => unsetNotePosition(pos);
 
   return (
     <div
@@ -21,9 +17,8 @@ const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
           justify-center cursor-pointer
         `}
       style={{ gridArea: cssArea }}
-      onClick={removeSymbol}
     >
-      <NoteDisplayTypes fret={fret} symbol={symbol} />
+      <NoteDisplayTypes note={note} symbol={symbol} handleRemoveSelf={removeSymbol} />
     </div>
   );
 };

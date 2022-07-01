@@ -11,10 +11,7 @@ export type ControlsSlice = {
   setSelectedControl: (selectedControl: NoteSymbols) => void;
 };
 
-export const createControlsSlice: StateCreator<State, Middlewares, [], ControlsSlice> = (
-  set,
-  get
-) => ({
+export const createControlsSlice: StateCreator<State, Middlewares, [], ControlsSlice> = (set) => ({
   selectedControl: NoteSymbols.default,
   setSelectedControl(selectedControl) {
     return set((state) => ({ ...state, selectedControl }), false, 'CONTROLS/SET_SELECTED_CONTROL');

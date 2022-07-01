@@ -1,8 +1,10 @@
+import type { SymbolComponent } from './index';
+
 const CLASS_NAMES = `absolute top-1/2 h-3 w-full -translate-y-1/2 border-4 border-slate-700`;
 
-const Crossmark = ({ outline = false }: { outline?: boolean }) => {
+const Crossmark = ({ outline = false, handleRemoveSelf }: SymbolComponent) => {
   return (
-    <div className='relative aspect-square h-3/5 rotate-45'>
+    <div className='relative aspect-square h-3/5 rotate-45' onClick={handleRemoveSelf}>
       {outline && (
         <div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 h-1 w-1/2 bg-white z-10' />
       )}

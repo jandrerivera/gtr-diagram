@@ -1,4 +1,6 @@
-const Diamond = ({ outline = false, label = '' }: { outline?: boolean; label?: String }) => {
+import type { SymbolComponent } from './index';
+
+const Diamond = ({ outline = false, label = '', handleRemoveSelf }: SymbolComponent) => {
   return (
     <div
       className={`
@@ -7,6 +9,7 @@ const Diamond = ({ outline = false, label = '' }: { outline?: boolean; label?: S
         border-4 border-slate-700 
         ${outline ? 'bg-white text-bg-slate-700' : 'bg-slate-700 text-white'}
       `}
+      onClick={handleRemoveSelf}
     >
       <span
         className={`relative z-30 -rotate-45 text-2xl font-bold ${
