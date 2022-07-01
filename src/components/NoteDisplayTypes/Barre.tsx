@@ -7,6 +7,7 @@ import { CgArrowsH } from 'react-icons/cg';
 import type { SymbolComponent } from './index';
 
 const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: SymbolComponent) => {
+  label = 'D';
   const VISUAL_ADJUST = 2.5; //visually adjusted to same width as Circle
   const MAX_BARRE_WIDTH = `${((span - 1 / VISUAL_ADJUST) / span) * 100}%`;
   const DRAG_AREA_WIDTH = `${((span - 1 / (VISUAL_ADJUST * 2)) / span) * 100}%`;
@@ -18,20 +19,20 @@ const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: Sym
   const [wrapRef, wrapBounds] = useMeasure();
   const [barreParentRef, parentBounds] = useMeasure();
 
-  const [{ width, x }, api] = useSpring(
+  const [{ width, opacity }, api] = useSpring(
     () => ({
-      from: { width: parentBounds.width || '100%', x: 0, immediate: true },
-      to: { width: parentBounds.width || '100%', x: 0, immediate: true },
+      from: { width: parentBounds.width || '100%', opacity: 0 },
+      to: { width: parentBounds.width || '100%' },
     }),
     [parentBounds]
   );
 
   const bind = useDrag(
     ({ movement: [mx], dragging, last }) => {
-      if (dragging) api.start({ to: { width: parentBounds.width + mx, x: mx } });
-      if (!dragging) api.start({ to: { width: parentBounds.width, x: 0 }, immediate: true });
+      if (dragging) api.start({ to: { width: parentBounds.width + mx } });
 
       if (last) {
+        api.start({ to: { opacity: 0 }, onRest: () => setShowResizeControls(false) });
         if (!note) return;
         const gridSpanSize = wrapBounds.width / span;
         const newSpan = Math.round(span - -mx / gridSpanSize);
@@ -44,6 +45,7 @@ const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: Sym
 
   const handleOnClick = () => {
     if (!showResizeControls) {
+      api.start({ to: { opacity: 1 } });
       setShowResizeControls(true);
       return;
     }
@@ -53,50 +55,24 @@ const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: Sym
     <div ref={wrapRef} className='flex justify-center items-center w-full h-full'>
       <div
         ref={barreParentRef}
-        style={{
-          width: MAX_BARRE_WIDTH,
-        }}
-        className={`
-          h-3/5 w-full relative 
-          `}
+        style={{ width: MAX_BARRE_WIDTH }}
+        className={` h-3/5 w-full relative `}
       >
         <div
-          ref={dragAreaRef}
-          style={{
-            width: DRAG_AREA_WIDTH,
-          }}
           className={`
-            absolute bottom-0 right-0 -top-8 
+            absolute z-30 inset-0 h-full aspect-square pointer-events-none
+            flex justify-center items-center text-2xl font-bold 
+            ${outline ? 'text-slate-700' : ' text-white'}
           `}
+        >
+          {label}
+        </div>
+        <div
+          ref={dragAreaRef}
+          style={{ width: DRAG_AREA_WIDTH }}
+          className={` absolute bottom-0 right-0 -top-8 `}
         />
-        {showResizeControls && (
-          <animated.div
-            {...bind()}
-            style={{ x }}
-            className={`
-              absolute z-50
-              h-full aspect-[2/3] right-0
-              flex justify-center items-center text-2xl font-bold text-white
-              touch-pan-y cursor-col-resize 
-            `}
-          >
-            <div
-              className={`
-                absolute right-0 translate-x-1/2
-                flex justify-center items-center
-                w-6 h-full
-              `}
-            >
-              <div
-                className={`
-                bg-pink-400  p-1 w-6 h-6 rounded-full
-              `}
-              >
-                <CgArrowsH className='w-full h-auto' />
-              </div>
-            </div>
-          </animated.div>
-        )}
+
         <animated.div
           className={`
             absolute z-20 h-full
@@ -107,7 +83,32 @@ const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: Sym
           `}
           style={{ width }}
           onClick={handleOnClick}
-        />
+        >
+          {showResizeControls && (
+            <animated.div
+              {...bind()}
+              style={{ opacity }}
+              className={`
+              absolute z-50
+              h-full aspect-[2/3] right-0
+              flex justify-center items-center text-2xl font-bold text-white
+              touch-pan-y cursor-col-resize 
+            `}
+            >
+              <div
+                className={`
+                absolute right-0 translate-x-1/2
+                flex justify-center items-center
+                w-6 h-full
+              `}
+              >
+                <div className={`bg-pink-400  p-1 w-6 h-6 rounded-full`}>
+                  <CgArrowsH className='w-full h-auto' />
+                </div>
+              </div>
+            </animated.div>
+          )}
+        </animated.div>
       </div>
     </div>
   );
