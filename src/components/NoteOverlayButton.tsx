@@ -5,14 +5,11 @@ import { NoteSymbols } from '../store/notes.slice';
 const NoteOverlayButton = ({ gridCoord }: { gridCoord: GridCoordinateType }) => {
   const { pos, cssArea } = gridCoord;
 
-  const posHasNote = useStore((state) => state.getPosHasNote(pos));
   const setBarrePosition = useStore((state) => state.setBarrePosition);
   const setNotePosition = useStore((state) => state.setNotePosition);
   const selectedControl = useStore((state) => state.selectedControl);
 
   const handleClick = () => {
-    if (posHasNote) return;
-
     if (selectedControl === NoteSymbols.barre || selectedControl === NoteSymbols.barreOutline) {
       return setBarrePosition({ ...gridCoord, symbol: { style: selectedControl } });
     }

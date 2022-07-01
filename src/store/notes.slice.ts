@@ -2,6 +2,7 @@ import { StateCreator } from 'zustand';
 import { State, Middlewares } from './store';
 import type { GridPosKey, CssArea, GridCoordinateType } from './grid.slice';
 import { getPos, getCssArea } from '../utils/grid';
+import { v4 as uuidv4 } from 'uuid';
 
 export enum NoteSymbols {
   default = 'DEFAULT',
@@ -22,48 +23,45 @@ export enum NoteSymbols {
 export type SymbolType = { style: NoteSymbols; label?: string; span?: number };
 
 export type NoteType = GridCoordinateType & {
+  id?: string;
   symbol: SymbolType;
 };
 
 export type NotesSlice = {
-  notePositions: {
-    [pos: GridPosKey]: NoteType;
-  };
-  getPosHasNote: (pos: GridPosKey) => boolean;
-  getNotePositionsArr: () => NoteType[];
+  notePositions: NoteType[];
   setNotePosition: (note: NoteType) => void;
   unsetNotePosition: (pos: GridPosKey) => void;
-  getNoteAtPosition: (pos: GridPosKey) => NoteType;
   resetNotePositions: () => void;
   setBarrePosition: (note: NoteType) => void;
 };
 
 export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> = (set, get) => ({
-  notePositions: {},
+  notePositions: [],
   resetNotePositions: () =>
-    set((state) => ({ ...state, notePositions: {} }), false, 'NOTES/RESET_NOTE_POSITIONS'),
-  getPosHasNote: (pos) => {
-    const notePositions = get().notePositions;
-    return pos in notePositions;
-  },
-  getNotePositionsArr: () => Object.values(get().notePositions),
-  getNoteAtPosition: (pos) => get().notePositions[pos],
-  setNotePosition: ({ pos, cssArea, fret, string, symbol }) => {
+    set((state) => ({ ...state, notePositions: [] }), false, 'NOTES/RESET_NOTE_POSITIONS'),
+  setNotePosition: (note) => {
+    const { id } = note;
     return set(
       (state) => {
-        const newState = { ...state.notePositions };
-        newState[pos] = { pos, cssArea, fret, string, symbol };
+        let newState = [];
+        if (id) {
+          newState = state.notePositions.map((oldNote) => (oldNote.id === id ? note : oldNote));
+        } else {
+          newState = [...state.notePositions];
+          newState.push({ ...note, id: uuidv4() });
+        }
         return { notePositions: newState };
       },
       false,
       'NOTES/SET_NOTE_POSITION'
     );
   },
+
   unsetNotePosition: (pos) => {
     set(
       (state) => {
-        const newState = { ...state.notePositions };
-        delete newState[pos];
+        const newState = [...state.notePositions].filter((note) => note.pos !== pos);
+        // delete newState[pos];
 
         return { notePositions: newState };
       },
@@ -71,7 +69,7 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
       'NOTES/UNSET_NOTE_POSITION'
     );
   },
-  setBarrePosition: ({ fret, string, symbol }) => {
+  setBarrePosition: ({ id, fret, string, symbol }) => {
     const getGridCoord = get().getGridCoord;
 
     let { span } = symbol;
@@ -83,6 +81,7 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
 
     get().setNotePosition({
       ...getGridCoord(fret, string, span),
+      id,
       symbol: { ...symbol, span },
     });
 

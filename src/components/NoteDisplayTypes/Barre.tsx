@@ -20,16 +20,15 @@ const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: Sym
 
   const [{ width, x }, api] = useSpring(
     () => ({
-      from: { width: parentBounds.width || '100%', x: 0 },
-      to: { width: parentBounds.width || '100%', x: 0 },
-      immediate: true,
+      from: { width: parentBounds.width || '100%', x: 0, immediate: true },
+      to: { width: parentBounds.width || '100%', x: 0, immediate: true },
     }),
     [parentBounds]
   );
 
   const bind = useDrag(
     ({ movement: [mx], dragging, last }) => {
-      if (dragging) api.start({ to: { width: parentBounds.width + mx, x: mx }, immediate: true });
+      if (dragging) api.start({ to: { width: parentBounds.width + mx, x: mx } });
       if (!dragging) api.start({ to: { width: parentBounds.width, x: 0 }, immediate: true });
 
       if (last) {
@@ -58,8 +57,8 @@ const Barre = ({ note, outline = false, label, span = 2, handleRemoveSelf }: Sym
           width: MAX_BARRE_WIDTH,
         }}
         className={`
-          h-3/5 w-full relative
-        `}
+          h-3/5 w-full relative 
+          `}
       >
         <div
           ref={dragAreaRef}

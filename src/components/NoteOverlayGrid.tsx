@@ -4,12 +4,11 @@ import Fretboard from './GuitarParts/Fretboard';
 import Nut from './GuitarParts/Nut';
 
 import useStore from '../store/store';
-import { useEffect, useRef } from 'react';
 
 const NoteOverlayGrid = () => {
   const { stringsCount, fretsCount } = useStore((state) => state.config);
   const gridCoordinates = useStore((state) => state.gridCoordinates);
-  const notePositions = useStore((state) => state.getNotePositionsArr());
+  const notePositions = useStore((state) => state.notePositions);
 
   return (
     <div
@@ -26,8 +25,8 @@ const NoteOverlayGrid = () => {
         <NoteOverlayButton key={key} gridCoord={gridCoord} />
       ))}
 
-      {notePositions.map((note, key) => (
-        <NoteOverlaySymbolCell key={key} note={note} />
+      {notePositions.map((note) => (
+        <NoteOverlaySymbolCell key={note.id} note={note} />
       ))}
     </div>
   );
