@@ -1,8 +1,6 @@
 import { StateCreator } from 'zustand';
 import { State, Middlewares } from './store';
 
-import { getPos, getCssArea } from '../utils/grid';
-
 export type GridPosKey = string;
 export type CssArea = string;
 
@@ -16,6 +14,8 @@ export type GridCoordinateType = {
 export type GridSlice = {
   gridCoordinates: GridCoordinateType[];
   getGridCoord: (fret: number, string: number, span?: number) => GridCoordinateType;
+  getPos: (fret: number, string: number) => GridPosKey;
+  getCssArea: (fret: number, string: number, span?: number) => CssArea;
   _generateCoordinateGrid: () => void;
   _movePos: (pos: GridPosKey, dir: 'left' | 'right', distance: number) => GridPosKey;
 };
@@ -23,14 +23,25 @@ export type GridSlice = {
 export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = (set, get) => ({
   gridCoordinates: [{ pos: '0', cssArea: 'posA0', fret: 0, string: 1 }],
   getGridCoord: (fret, string, span = 1) => {
-    const config = get().config;
     return {
-      pos: getPos(fret, string, config),
-      cssArea: getCssArea(fret, string, span),
+      pos: get().getPos(fret, string),
+      cssArea: get().getCssArea(fret, string, span),
       fret,
       string,
     };
   },
+  getPos: (fret, string) => {
+    const stringsCount = get().config.stringsCount;
+    return `${(string - 1) * stringsCount + fret}`;
+  },
+
+  getCssArea: (fret, string, span = 1) => {
+    const posStart = `pos${getColLetter(string)}${fret}-start`;
+    const posEnd = `pos${getColLetter(string + span - 1)}${fret}-end`;
+
+    return `${posStart} / ${posStart} / ${posEnd} / ${posEnd} `;
+  },
+
   _generateCoordinateGrid: () => {
     let coords = [];
     const { fretsCount, stringsCount } = get().config;
@@ -38,8 +49,8 @@ export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = 
       let string = i;
       for (let j = 0; j <= fretsCount; j++) {
         let fret = j;
-        let pos = getPos(fret, string, get().config);
-        let cssArea = getCssArea(fret, string);
+        let pos = get().getPos(fret, string);
+        let cssArea = get().getCssArea(fret, string);
         coords.push({ pos, cssArea, fret, string });
       }
     }
@@ -54,3 +65,8 @@ export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = 
     // }
   },
 });
+
+const getColLetter = (n: number): string => {
+  var letter = String.fromCharCode(n + 64);
+  return letter;
+};

@@ -1,7 +1,6 @@
 import { StateCreator } from 'zustand';
 import { State, Middlewares } from './store';
 import type { GridPosKey, CssArea, GridCoordinateType } from './grid.slice';
-import { getPos, getCssArea } from '../utils/grid';
 import { v4 as uuidv4 } from 'uuid';
 
 export enum NoteSymbols {
@@ -87,7 +86,7 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
 
     // Remove any notes under Barre
     for (let i = 1; i < span; i++) {
-      get().unsetNotePosition(getPos(fret, string + i, get().config));
+      get().unsetNotePosition(get().getPos(fret, string + i));
     }
   },
 });
