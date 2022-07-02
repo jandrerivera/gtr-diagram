@@ -16,8 +16,8 @@ export const defaultSettings = {
 
 function App() {
   const setConfig = useStore((state) => state.setConfig);
-  // const notePositions = useStore((state) => state.notePositions);
-  // console.log(notePositions);
+  const notePositions = useStore((state) => state.notePositions);
+  console.log(notePositions);
 
   useEffect(() => {
     if (!setConfig) return;

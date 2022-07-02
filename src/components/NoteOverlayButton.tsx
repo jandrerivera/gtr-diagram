@@ -3,45 +3,53 @@ import useStore from '../store/store';
 import type { GridCoordinateType } from '../store/grid.slice';
 import { NoteSymbols } from '../store/notes.slice';
 
+const isBarre = (symbol?: NoteSymbols) => {
+  if (!symbol) return false;
+  return symbol === NoteSymbols.barre || symbol === NoteSymbols.barreOutline;
+};
+
 const NoteOverlayButton = ({ gridCoord }: { gridCoord: GridCoordinateType }) => {
   const { pos, fret, string } = gridCoord;
 
   const [showPreview, setShowPreview] = useState(false);
 
   const { stringsCount } = useStore((state) => state.config);
-  const selectedControl = useStore((state) => state.selectedControl);
-  const unsetNotePosition = useStore((state) => state.unsetNotePosition);
-
   const note = useStore((state) => state.getNoteAtPosition(pos));
+  const maxBarreSpan = useStore((state) => state.getMaxSpanFromString(string));
+  const selectedControl = useStore((state) => state.selectedControl);
+
   const setBarrePosition = useStore((state) => state.setBarrePosition);
   const setNotePosition = useStore((state) => state.setNotePosition);
+  const unsetNotePosition = useStore((state) => state.unsetNotePosition);
   const getCssArea = useStore((state) => state.getCssArea);
-  const getMaxSpanFromString = useStore((state) => state.getMaxSpanFromString);
 
-  const isBarre = (symbol?: NoteSymbols) => {
-    if (!symbol) return false;
-    return symbol === NoteSymbols.barre || symbol === NoteSymbols.barreOutline;
-  };
+  const previewSpan = isBarre(selectedControl) ? maxBarreSpan : 1;
+  const buttonSpan = isBarre(selectedControl) && string === stringsCount - 1 ? 2 : 1;
 
   const handleClick = () => {
     if (isBarre(selectedControl)) {
       setShowPreview(false);
-      return setBarrePosition({ ...gridCoord, symbol: { style: selectedControl } });
+      return setBarrePosition({
+        ...gridCoord,
+        symbol: { style: selectedControl, span: maxBarreSpan },
+      });
     }
 
-    if (note) return unsetNotePosition(pos);
+    if (note && note.symbol.style === selectedControl) return unsetNotePosition(pos);
 
     setShowPreview(false);
     return setNotePosition({ ...gridCoord, symbol: { style: selectedControl } });
   };
 
-  const previewSpan = isBarre(selectedControl) ? getMaxSpanFromString(string) : 1;
-  const filledButton = note && isBarre(note.symbol.style) ? note.symbol.span : 1;
-  const buttonSpan = isBarre(selectedControl) && string === stringsCount - 1 ? 2 : filledButton;
+  const handleHover = (bool: boolean) => {
+    if (note?.symbol.style !== selectedControl) return setShowPreview(bool);
+  };
+
+  // Remove self if dummy note
+  if (note?.symbol?.style === NoteSymbols.blank) return <></>;
 
   //Remove self if is unusable when Barre is selected
   if (isBarre(selectedControl) && string === stringsCount) return <></>;
-  if (note?.symbol?.style === NoteSymbols.blank) return <></>;
 
   return (
     <>
@@ -50,13 +58,13 @@ const NoteOverlayButton = ({ gridCoord }: { gridCoord: GridCoordinateType }) => 
           group
           relative z-50
           transition-colors
-          bg-lime-400 bg-opacity-50
           ${isBarre(note?.symbol?.style) && 'pointer-events-none'}
-          `}
+        `}
+        // bg-lime-400 bg-opacity-30
         style={{ gridArea: getCssArea(fret, string, buttonSpan) }}
         onClick={handleClick}
-        onMouseEnter={() => !note && setShowPreview(true)}
-        onMouseLeave={() => !note && setShowPreview(false)}
+        onMouseEnter={() => handleHover(true)}
+        onMouseLeave={() => handleHover(false)}
       />
       <div
         className={`

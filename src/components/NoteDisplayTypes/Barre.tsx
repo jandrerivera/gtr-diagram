@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useMeasure from 'react-use-measure';
 import useStore from '../../store/store';
-import { NoteType } from '../../store/notes.slice';
+import { BarreType } from '../../store/notes.slice';
 
 import { useSpring, animated } from 'react-spring';
 import { useDrag } from '@use-gesture/react';
@@ -9,18 +9,21 @@ import { CgArrowsH } from 'react-icons/cg';
 import { RiDeleteBin2Fill } from 'react-icons/ri';
 
 export type BarreSymbolComponent = {
-  note: NoteType;
+  note: BarreType;
   outline?: boolean;
   label?: String;
-  span: number;
   dragAreaRef?: React.RefObject<HTMLDivElement>;
 };
 
-const Barre = ({ note, outline = false, label, span = 2, dragAreaRef }: BarreSymbolComponent) => {
+const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolComponent) => {
+  const {
+    symbol: { span },
+  } = note;
+
   const VISUAL_ADJUST = 2.5; //visually adjusted to same width as Circle
   const MAX_BARRE_WIDTH = `${((span - 1 / VISUAL_ADJUST) / span) * 100}%`;
 
-  const setBarrePosition = useStore((state) => state.setBarrePosition);
+  const updateBarreSize = useStore((state) => state.updateBarreSize);
   const getMaxSpanFromString = useStore((state) => state.getMaxSpanFromString);
   const unsetNotePosition = useStore((state) => state.unsetNotePosition);
 
@@ -54,7 +57,7 @@ const Barre = ({ note, outline = false, label, span = 2, dragAreaRef }: BarreSym
       const gridSpanSize = wrapBounds.width / span;
       const newSpan = Math.round(span - -mx / gridSpanSize);
 
-      setBarrePosition({
+      updateBarreSize({
         ...note,
         symbol: {
           style: note.symbol.style,

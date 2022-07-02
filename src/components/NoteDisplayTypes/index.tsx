@@ -5,7 +5,7 @@ import Diamond from './Diamond';
 import Triangle from './Triangle';
 import Crossmark from './Crossmark';
 import Barre from './Barre';
-import type { NoteType, NoteSymbols, SymbolType } from '../../store/notes.slice';
+import type { NoteType, BarreType, NoteSymbols, SymbolType } from '../../store/notes.slice';
 
 type DisplaySymbolsType = {
   [value in NoteSymbols]: JSX.Element | null;
@@ -21,7 +21,7 @@ export type SymbolComponent = {
 
 const NoteDisplayTypes = ({
   note,
-  symbol: { style, span },
+  symbol: { style },
   barreDragAreaRef,
 }: {
   note: NoteType;
@@ -43,10 +43,8 @@ const NoteDisplayTypes = ({
     DIAMOND_OUTLINE: <Diamond outline={true} />,
     TRIANGLE_OUTLINE: <Triangle outline={true} />,
     CROSS_OUTLINE: <Crossmark outline={true} />,
-    BARRE: <Barre note={note} span={span || 2} dragAreaRef={barreDragAreaRef} />,
-    BARRE_OUTLINE: (
-      <Barre note={note} span={span || 2} outline={true} dragAreaRef={barreDragAreaRef} />
-    ),
+    BARRE: <Barre note={note as BarreType} dragAreaRef={barreDragAreaRef} />,
+    BARRE_OUTLINE: <Barre note={note as BarreType} outline={true} dragAreaRef={barreDragAreaRef} />,
   };
   return displaySymbols[style];
 };

@@ -24,8 +24,8 @@ const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
           h-full w-full items-center
           justify-center cursor-pointer
           `}
-        // bg-pink-400 bg-opacity-50
         // ${note?.symbol?.style === NoteSymbols.blank && 'pointer-events-none'}
+        // bg-pink-400 bg-opacity-50
         style={{ gridArea: cssArea }}
       >
         <NoteDisplayTypes note={note} symbol={symbol} barreDragAreaRef={barreDragAreaRef} />
