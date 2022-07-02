@@ -31,13 +31,13 @@ const ControlsMenu = () => {
   return (
     <ul
       className={`
-          mx-auto mb-2
-          flex flex-col items-stretch justify-start
-          overflow-auto rounded-lg bg-white
-          border-2 divide-y-2 divide-slate-500 border-slate-500 
-          text-xs
-          shadow-lg
-          `}
+        mx-auto mb-2
+        flex flex-col items-stretch justify-start
+        overflow-auto rounded-lg bg-white
+        border-2 divide-y-2 divide-slate-500 border-slate-500 
+        text-xs
+        shadow-lg
+      `}
     >
       <li>
         <SymbolSelectMenu />
@@ -47,7 +47,7 @@ const ControlsMenu = () => {
         <button
           onClick={resetNotePositions}
           className={`
-            w-full py-2 px-4 bg-white text-slate-500 hover:bg-neutral-200
+            w-full py-2 px-4 bg-white text-slate-500 md:hover:bg-neutral-200
           `}
         >
           Reset
@@ -77,7 +77,7 @@ const SymbolSelectMenu = () => {
   const selectedControl = useStore((state) => state.selectedControl);
   const setSelectedControl = useStore((state) => state.setSelectedControl);
 
-  const symbolControls = Object.entries(NoteSymbols).filter(([name]) => name !== 'default');
+  const symbolControls = Object.entries(NoteSymbols); //.filter(([name]) => name !== 'default');
 
   const onClickSymbolSelect = (clickedDymbol: NoteSymbols) => {
     if (selectedControl === clickedDymbol) return setSelectedControl(NoteSymbols.default);
@@ -91,8 +91,8 @@ const SymbolSelectMenu = () => {
             onClick={() => onClickSymbolSelect(symbol)}
             className={`
               w-full py-2 px-4 
-                ${selectedControl !== symbol && 'bg-white text-slate-500 hover:bg-neutral-200'}
-                ${selectedControl === symbol && 'bg-slate-500 text-slate-100 hover:bg-slate-400'}
+                ${selectedControl !== symbol && 'bg-white text-slate-500  md:hover:bg-neutral-200'}
+                ${selectedControl === symbol && 'bg-slate-500 text-slate-100 md:hover:bg-slate-400'}
               `}
           >
             {name}

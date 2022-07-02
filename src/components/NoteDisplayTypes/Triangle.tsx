@@ -1,14 +1,14 @@
-import type { SymbolComponent } from './index';
+import { SymbolComponent } from './index';
 
-const Triangle = ({ outline = false, label = '', handleRemoveSelf }: SymbolComponent) => {
+const Triangle = ({ outline = false, label = '' }: SymbolComponent) => {
   return (
     <div
       className={`
+        group
         relative
         rounded-full aspect-square h-3/5
         flex justify-center items-center
       `}
-      onClick={handleRemoveSelf}
     >
       <span
         className={`relative z-30 top-[15%] text-2xl font-bold ${

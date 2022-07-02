@@ -27,7 +27,7 @@ const useStore = create<State>()(
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(([key]) => {
-              const blacklist = ['set', 'get', '_'];
+              const blacklist = ['set', 'get', 'update', '_'];
               const containsBlacklistedWord = new RegExp(blacklist.join('|')).test(key);
               return !containsBlacklistedWord;
             })

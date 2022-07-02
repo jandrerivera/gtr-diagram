@@ -1,28 +1,36 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import useMeasure from 'react-use-measure';
 import useStore from '../../store/store';
+import { NoteType } from '../../store/notes.slice';
+
 import { useSpring, animated } from 'react-spring';
 import { useDrag } from '@use-gesture/react';
 import { CgArrowsH } from 'react-icons/cg';
-import type { SymbolComponent } from './index';
+import { RiDeleteBin2Fill } from 'react-icons/ri';
 
-const Barre = ({
-  note,
-  outline = false,
-  label,
-  span = 2,
-  dragAreaRef,
-  handleRemoveSelf,
-}: SymbolComponent) => {
+export type BarreSymbolComponent = {
+  note: NoteType;
+  outline?: boolean;
+  label?: String;
+  span: number;
+  dragAreaRef?: React.RefObject<HTMLDivElement>;
+};
+
+const Barre = ({ note, outline = false, label, span = 2, dragAreaRef }: BarreSymbolComponent) => {
   const VISUAL_ADJUST = 2.5; //visually adjusted to same width as Circle
   const MAX_BARRE_WIDTH = `${((span - 1 / VISUAL_ADJUST) / span) * 100}%`;
 
-  const [showResizeControls, setShowResizeControls] = useState(false);
   const setBarrePosition = useStore((state) => state.setBarrePosition);
+  const getMaxSpanFromString = useStore((state) => state.getMaxSpanFromString);
+  const unsetNotePosition = useStore((state) => state.unsetNotePosition);
 
+  const [showResizeControls, setShowResizeControls] = useState(false);
+  const [showDeleteControls, setShowDeleteControls] = useState(false);
   const [wrapRef, wrapBounds] = useMeasure();
   const [ballRef, ballBounds] = useMeasure();
   const [barreParentRef, parentBounds] = useMeasure();
+
+  const maxSpanPossible = getMaxSpanFromString(note.string);
 
   const [{ width, opacity }, api] = useSpring(() => {
     const STARTING_SIZE =
@@ -37,34 +45,56 @@ const Barre = ({
   const bind = useDrag(
     ({ movement: [mx], dragging, last }) => {
       if (dragging) api.start({ to: { width: parentBounds.width + mx } });
+      if (!last) return;
 
-      if (last) {
-        api.start({ to: { opacity: 0 }, onRest: () => setShowResizeControls(false) });
+      hideAllControls();
 
-        if (!note) return;
-        if (span <= 1) return;
+      if (!note || span < 2) return;
 
-        const gridSpanSize = wrapBounds.width / span;
-        const newSpan = Math.round(span - -mx / gridSpanSize);
-        setBarrePosition({ ...note, symbol: { style: note.symbol.style, span: newSpan } });
+      const gridSpanSize = wrapBounds.width / span;
+      const newSpan = Math.round(span - -mx / gridSpanSize);
 
-        api.start({ to: { width: parentBounds.width } });
-      }
+      setBarrePosition({
+        ...note,
+        symbol: {
+          style: note.symbol.style,
+          span: newSpan,
+        },
+      });
+
+      if (span === newSpan) api.start({ to: { width: parentBounds.width } });
     },
     { bounds: dragAreaRef }
   );
 
-  const handleOnClick = () => {
-    if (!showResizeControls) {
-      api.start({ to: { opacity: 1 } });
-      setShowResizeControls(true);
-      return;
-    }
+  const toggleBarreControls = () => {
+    if (showResizeControls) return hideAllControls();
+
+    api.start({ to: { opacity: 1 } });
+    setShowDeleteControls(true);
+
+    if (maxSpanPossible <= 2) return;
+
+    setShowResizeControls(true);
+  };
+
+  const hideAllControls = () =>
+    api.start({
+      to: { opacity: 0 },
+      onRest: () => {
+        setShowResizeControls(false);
+        setShowDeleteControls(false);
+      },
+    });
+
+  const clickToDelete = () => {
+    if (!showDeleteControls) return;
+    unsetNotePosition(note.pos);
   };
 
   return (
     <>
-      <div ref={wrapRef} className='flex justify-center items-center w-full h-full'>
+      <div ref={wrapRef} className='relative z-50 flex justify-center items-center w-full h-full'>
         <div
           ref={barreParentRef}
           style={{ width: MAX_BARRE_WIDTH }}
@@ -73,11 +103,19 @@ const Barre = ({
           <div
             ref={ballRef}
             className={`
-            absolute z-30 inset-0 h-full aspect-square pointer-events-none
-            flex justify-center items-center text-2xl font-bold 
-            ${outline ? 'text-slate-700' : ' text-white'}
-          `}
+              group
+              absolute z-30 inset-0 h-full aspect-square rounded-full
+              flex justify-center items-center text-2xl font-bold 
+              ${!showDeleteControls && 'pointer-events-none'}
+              ${outline ? 'text-slate-700' : ' text-white'}
+            `}
+            onClick={clickToDelete}
           >
+            {showDeleteControls && (
+              <animated.div style={{ opacity }}>
+                <BarreDeleteIcon outline={outline} />
+              </animated.div>
+            )}
             {label}
           </div>
 
@@ -90,36 +128,67 @@ const Barre = ({
             ${outline ? 'bg-white text-bg-slate-700' : 'bg-slate-700 text-white'}
           `}
             style={{ width }}
-            onClick={handleOnClick}
+            onClick={toggleBarreControls}
           >
             {showResizeControls && (
               <animated.div
                 {...bind()}
                 style={{ opacity }}
                 className={`
-              absolute z-50
-              h-full aspect-[2/3] right-0
-              flex justify-center items-center text-2xl font-bold text-white
-              touch-pan-y cursor-col-resize 
-            `}
+                  group
+                  absolute z-50
+                  h-full aspect-[2/3] right-0
+                  flex justify-center items-center text-2xl font-bold text-white
+                  touch-pan-y cursor-col-resize 
+                `}
               >
-                <div
-                  className={`
-                absolute right-0 translate-x-1/2
-                flex justify-center items-center
-                w-6 h-full
-              `}
-                >
-                  <div className={`bg-pink-400  p-1 w-6 h-6 rounded-full`}>
-                    <CgArrowsH className='w-full h-auto' />
-                  </div>
-                </div>
+                <BarreResizeIcon />
               </animated.div>
             )}
           </animated.div>
         </div>
       </div>
     </>
+  );
+};
+
+const BarreDeleteIcon = ({ outline }: { outline: boolean }) => {
+  return (
+    <div
+      className={`
+        absolute inset-4 flex justify-center items-center rounded-full
+        ${outline ? ' bg-white' : 'bg-slate-700'}
+        `}
+    >
+      <RiDeleteBin2Fill
+        className={`
+          w-6 h-6 transition-colors
+          ${
+            outline
+              ? 'group-hover:fill-red-500 fill-neutral-500'
+              : 'group-hover:fill-red-300 fill-neutral-200'
+          }
+        `}
+      />
+    </div>
+  );
+};
+
+const BarreResizeIcon = () => {
+  return (
+    <div
+      className={`
+          absolute right-0 translate-x-1/2
+          flex justify-center items-center
+          w-6 h-full 
+        `}
+    >
+      <div
+        className={`group-hover:bg-pink-400 bg-pink-600 transition-colors p-1 w-6 h-6 rounded-full`}
+      >
+        <CgArrowsH className='w-full h-auto' />
+      </div>
+    </div>
   );
 };
 
