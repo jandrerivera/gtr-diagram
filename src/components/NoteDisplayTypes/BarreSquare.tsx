@@ -15,12 +15,12 @@ export type BarreSymbolComponent = {
   dragAreaRef?: React.RefObject<HTMLDivElement>;
 };
 
-const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolComponent) => {
+const BarreSquare = ({ note, outline = false, label, dragAreaRef }: BarreSymbolComponent) => {
   const {
     symbol: { span },
   } = note;
 
-  const VISUAL_ADJUST = 3.1; //visually adjusted to same width as Circle
+  const VISUAL_ADJUST = 2.8; //visually adjusted to same width as Square
   const MAX_BARRE_WIDTH = `${((span - 1 / VISUAL_ADJUST) / span) * 100}%`;
 
   const updateBarreSize = useStore((state) => state.updateBarreSize);
@@ -107,7 +107,7 @@ const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolCompone
             ref={ballRef}
             className={`
               group
-              absolute z-30 inset-0 h-full aspect-square rounded-full
+              absolute z-30 inset-0 h-full aspect-square
               flex justify-center items-center text-2xl font-bold 
               ${!showDeleteControls && 'pointer-events-none'}
               ${outline ? 'text-slate-700' : ' text-white'}
@@ -125,7 +125,6 @@ const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolCompone
           <animated.div
             className={`
             absolute z-20 h-full
-            rounded-full
             text-2xl font-bold text-white
             border-4 border-slate-700 
             ${outline ? 'bg-white text-bg-slate-700' : 'bg-slate-700 text-white'}
@@ -143,6 +142,7 @@ const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolCompone
                   h-full aspect-square
                   flex justify-center items-center
                   touch-pan-y cursor-col-resize 
+                  bg-lime-500
                 `}
               >
                 <BarreResizeIcon />
@@ -181,7 +181,7 @@ const BarreResizeIcon = () => {
   return (
     <div
       className={`
-          absolute right-0 translate-x-1/2
+          absolute right-0 translate-x-[60%]
           flex justify-center items-center
           w-6 h-full 
         `}
@@ -195,4 +195,4 @@ const BarreResizeIcon = () => {
   );
 };
 
-export default Barre;
+export default BarreSquare;

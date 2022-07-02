@@ -2,29 +2,25 @@ import { SymbolComponent } from './index';
 
 const Triangle = ({ outline = false, label = '' }: SymbolComponent) => {
   return (
-    <div
-      className={`
-        group
-        relative
-        rounded-full aspect-square h-3/5
+    <div className={` relative aspect-square h-4/5 `}>
+      <div
+        className={`
+        absolute inset-0 top-4
         flex justify-center items-center
-      `}
-    >
-      <span
-        className={`relative z-30 top-[15%] text-2xl font-bold ${
-          outline ? 'text-slate-700' : 'text-white'
-        }`}
+        text-2xl font-bold
+        ${outline ? 'text-slate-700' : 'text-white'}
+        `}
       >
         {label}
-      </span>
-      <svg className='absolute z-10 w-auto h-full stroke-[10px]  ' viewBox='0 0 120 100'>
+      </div>
+      <svg viewBox='0 0 120 120'>
         <polygon
-          className={outline ? 'fill-white' : 'fill-slate-700'}
-          points='60,0 120,100 0,100 '
+          className={outline ? 'fill-white ' : 'fill-slate-700 '}
+          points='9.521 104.2 60 16.704 110.479 104.2 9.521 104.2'
         />
         <path
           className='fill-slate-700'
-          d='M59.5,15.6L104.9,92H14.1L59.5,15.6 M59.5,0L0,100h119L59.5,0L59.5,0z'
+          d='M60,23.708l44.419,76.992H15.581L60,23.708m0-14.008L3.462,107.7H116.538L60,9.7h0Z'
         />
       </svg>
     </div>

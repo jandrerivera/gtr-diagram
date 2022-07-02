@@ -6,6 +6,11 @@
   @apply bg-red-900 bg-opacity-10;
 } */
 
+svg {
+  height: auto;
+  width: 100%;
+}
+
 .note-overlay-grid {
   display: grid;
   grid-gap: 4px;

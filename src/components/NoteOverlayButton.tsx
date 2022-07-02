@@ -5,7 +5,7 @@ import { NoteSymbols } from '../store/notes.slice';
 
 const isBarre = (symbol?: NoteSymbols) => {
   if (!symbol) return false;
-  return symbol === NoteSymbols.barre || symbol === NoteSymbols.barreOutline;
+  return symbol.startsWith('BARRE');
 };
 
 const NoteOverlayButton = ({ gridCoord }: { gridCoord: GridCoordinateType }) => {

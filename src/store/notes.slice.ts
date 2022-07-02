@@ -11,13 +11,15 @@ export enum NoteSymbols {
   triangle = 'TRIANGLE',
   diamond = 'DIAMOND',
   cross = 'CROSS',
-  barre = 'BARRE',
   circleOutline = 'CIRCLE_OUTLINE',
   squareOutline = 'SQUARE_OUTLINE',
   triangleOutline = 'TRIANGLE_OUTLINE',
   diamondOutline = 'DIAMOND_OUTLINE',
   crossOutline = 'CROSS_OUTLINE',
+  barre = 'BARRE',
   barreOutline = 'BARRE_OUTLINE',
+  barreSuqare = 'BARRE_SQUARE',
+  barreSuqareOutline = 'BARRE_SQUARE_OUTLINE',
 }
 
 export type SymbolType = { style: NoteSymbols; label?: string; span?: number };
@@ -40,10 +42,11 @@ export type NotesSlice = {
   updateNotePosition: (note: NoteType | BarreType) => void;
   getNoteAtPosition: (pos: GridPosKey) => NoteType | undefined;
   unsetNotePosition: (pos: GridPosKey) => void;
-  unsetChildNotes: (parentId: NoteId) => void;
   resetNotePositions: () => void;
   setBarrePosition: (note: BarreType) => void;
   updateBarreSize: (note: BarreType) => void;
+  _unsetChildNotes: (parentId: NoteId) => void;
+  _addSpacerNotes: (note: BarreType, id: NoteId) => void;
 };
 
 export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> = (set, get) => ({
@@ -55,6 +58,7 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
 
     set(
       (state) => {
+        //Remove any notes in same Position
         let newState = [...state.notePositions].filter((old) => old.pos !== note.pos);
 
         return {
@@ -69,7 +73,6 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
     return id;
   },
   updateNotePosition: (note) => {
-    console.log(note.id);
     return set(
       (state) => {
         let newState = [...state.notePositions].map((old) => (old.id === note.id ? note : old));
@@ -96,7 +99,42 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
       'NOTES/UNSET_NOTE_POSITION'
     );
   },
-  unsetChildNotes: (parentId) => {
+  getNoteAtPosition(pos) {
+    const note = get().notePositions.find((note) => note.pos === pos);
+    return note;
+  },
+  setBarrePosition: ({ fret, string, symbol }) => {
+    const { span = 2 } = symbol;
+    const note = {
+      ...get().getGridCoord(fret, string, span),
+      symbol: { ...symbol, span },
+    };
+
+    const parentId = get().setNotePosition(note);
+
+    // Replace notes under barre with spacer child notes
+    get()._addSpacerNotes(note, parentId);
+  },
+  updateBarreSize: ({ id, fret, string, symbol }) => {
+    const { span = 2 } = symbol;
+
+    const note = {
+      ...get().getGridCoord(fret, string, span),
+      id,
+      symbol: { ...symbol, span },
+    };
+
+    get().updateNotePosition(note);
+
+    if (id) {
+      //Reset all child notes
+      get()._unsetChildNotes(id);
+
+      // Replace notes under barre with spacer child notes
+      get()._addSpacerNotes(note, id);
+    }
+  },
+  _unsetChildNotes: (parentId) => {
     console.log('unsetChildNotes', parentId);
     return set(
       (state) => {
@@ -108,53 +146,13 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
       'NOTES/UNSET_CHILD_NOTES'
     );
   },
-  getNoteAtPosition(pos) {
-    const note = get().notePositions.find((note) => note.pos === pos);
-    return note;
-  },
-  setBarrePosition: ({ id, fret, string, symbol }) => {
-    const setNotePosition = get().setNotePosition;
-    const getGridCoord = get().getGridCoord;
+  _addSpacerNotes: ({ fret, string, symbol }, parentId) => {
+    const { span } = symbol;
 
-    const { span = 2 } = symbol;
-
-    const parentId = setNotePosition({
-      ...getGridCoord(fret, string, span),
-      id,
-      symbol: { ...symbol, span },
-    });
-
-    // Replace notes under barre with spacer child notes
     for (let i = 1; i < span; i++) {
-      setNotePosition({
-        ...getGridCoord(fret, string + i),
+      get().setNotePosition({
+        ...get().getGridCoord(fret, string + i),
         childOf: parentId,
-        symbol: { ...symbol, style: NoteSymbols.blank },
-      });
-    }
-  },
-  updateBarreSize: ({ id, fret, string, symbol }) => {
-    const setNotePosition = get().setNotePosition;
-    const updateNotePosition = get().updateNotePosition;
-    const unsetChildNotes = get().unsetChildNotes;
-    const getGridCoord = get().getGridCoord;
-
-    const { span = 2 } = symbol;
-
-    updateNotePosition({
-      ...getGridCoord(fret, string, span),
-      id,
-      symbol: { ...symbol, span },
-    });
-
-    //Reset all child notes
-    if (id) unsetChildNotes(id);
-
-    // Replace notes under barre with spacer child notes
-    for (let i = 1; i < span; i++) {
-      setNotePosition({
-        ...getGridCoord(fret, string + i),
-        childOf: id,
         symbol: { ...symbol, style: NoteSymbols.blank },
       });
     }
