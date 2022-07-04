@@ -1,22 +1,22 @@
-import { forwardRef } from 'react';
-
 interface ExportRegionTypes {
   children: React.ReactNode;
 }
 
-// const ExportRegion: React.FC<ExportRegionTypes> = ({ children }, ref) =>  {
 const ExportRegion: React.FC<ExportRegionTypes> = ({ children }) => {
   return (
     <div
       id='exportRegion'
+      // max-h-[70rem] w-full max-w-3xl
+      // flex items-center justify-center
       className={`
-          flex max-h-[50rem] w-full max-w-3xl
-          flex-col items-center justify-center
+          w-full
           bg-white
+          py-20
         `}
     >
       {children}
     </div>
   );
 };
+
 export default ExportRegion;

@@ -13,21 +13,26 @@ const NoteOverlayGrid = () => {
   return (
     <div
       className={`
-          note-overlay-grid
-          relative z-10
-          grow
-        `}
+        max-w-1xl aspect-[20/16] w-full relative
+      `}
     >
-      <Nut />
-      <Fretboard strings={stringsCount} frets={fretsCount} />
+      <div
+        className={`
+          note-overlay-grid
+          absolute inset-0 z-10
+        `}
+      >
+        <Nut />
+        <Fretboard strings={stringsCount} frets={fretsCount} />
 
-      {gridCoordinates.map((gridCoord, key) => (
-        <NoteOverlayButton key={key} gridCoord={gridCoord} />
-      ))}
+        {gridCoordinates.map((gridCoord, key) => (
+          <NoteOverlayButton key={key} gridCoord={gridCoord} />
+        ))}
 
-      {notePositions.map((note) => (
-        <NoteOverlaySymbolCell key={note.id} note={note} />
-      ))}
+        {notePositions.map((note) => (
+          <NoteOverlaySymbolCell key={note.id} note={note} />
+        ))}
+      </div>
     </div>
   );
 };

@@ -20,9 +20,9 @@ const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
       <div
         className={`
           relative z-20
-          flex
-          h-full w-full items-center
-          justify-center cursor-pointer
+          flex items-center justify-center 
+          h-auto w-full 
+          cursor-pointer
           `}
         // ${note?.symbol?.style === NoteSymbols.blank && 'pointer-events-none'}
         // bg-pink-400 bg-opacity-50

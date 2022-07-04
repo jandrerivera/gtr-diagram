@@ -7,19 +7,18 @@ const ChordDiagram = () => {
   // const { enabled: chordLabelenabled } = useStore((state) => state.chordLabel);
 
   return (
-    <>
+    <div
+      className={`
+        mx-auto
+        max-w-2xl w-full h-auto
+        flex flex-col
+        justify-start items-center
+      `}
+    >
       {/* {chordLabelenabled && <ChordLabel />} */}
       <TuningDisplay />
-
-      <div
-        className={`
-        max-w-1xl flex aspect-[20/16] w-full flex-col
-        items-stretch justify-start rounded-lg
-      `}
-      >
-        <NoteOverlayGrid />
-      </div>
-    </>
+      <NoteOverlayGrid />
+    </div>
   );
 };
 export default ChordDiagram;

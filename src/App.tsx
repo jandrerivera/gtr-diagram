@@ -4,7 +4,7 @@ import ExportRegion from './components/ExportRegion';
 import ChordDiagram from './components/ChordDiagram';
 
 import './index.css';
-import ControlsMenu from './components/ControlsMenu';
+import ControlsMenu from './components/ControlsMenu/ControlsMenu';
 import useStore from './store/store';
 
 export const defaultSettings = {
@@ -26,16 +26,28 @@ function App() {
   }, []);
 
   return (
-    <div className='flex h-screen min-h-screen w-screen flex-row justify-center items-center p-2'>
-      <ControlsMenu />
+    <div
+      className={`
+        mx-auto
+        h-screen w-screen min-h-screen max-w-4xl
+      `}
+    >
       <div
         className={`
-          flex grow flex-col items-center justify-center p-4 
-        `}
+          w-full h-full flex flex-row justify-center items-center
+          p-2 gap-2
+          `}
       >
-        <ExportRegion>
-          <ChordDiagram />
-        </ExportRegion>
+        <ControlsMenu />
+        <div
+          className={`
+          flex grow flex-col items-center justify-center h-full
+        `}
+        >
+          <ExportRegion>
+            <ChordDiagram />
+          </ExportRegion>
+        </div>
       </div>
     </div>
   );
