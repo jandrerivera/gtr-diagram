@@ -142,7 +142,6 @@ const BarreSquare = ({ note, outline = false, label, dragAreaRef }: BarreSymbolC
                   h-full aspect-square
                   flex justify-center items-center
                   touch-pan-y cursor-col-resize 
-                  bg-lime-500
                 `}
               >
                 <BarreResizeIcon />
