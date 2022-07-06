@@ -7,11 +7,7 @@ import Crossmark from './Crossmark';
 import Barre from './Barre';
 import BarreSquare from './BarreSquare';
 
-import type { NoteType, BarreType, NoteSymbols, SymbolType } from '../../store/notes.slice';
-
-type DisplaySymbolsType = {
-  [value in NoteSymbols]: JSX.Element | null;
-};
+import type { NoteType, BarreType, NoteSymbolsType, SymbolType } from '../../store/notes.slice';
 
 export type SymbolComponent = {
   note?: NoteType;
@@ -32,7 +28,7 @@ const NoteDisplayTypes = ({
 }) => {
   const DEFAULT_SYMBOL = note.fret === 0 ? <Circle outline={true} /> : <Circle outline={false} />;
 
-  const displaySymbols: DisplaySymbolsType = {
+  const displaySymbols: Record<NoteSymbolsType, JSX.Element> = {
     BLANK: <></>,
     DEFAULT: DEFAULT_SYMBOL,
     CIRCLE: <Circle />,

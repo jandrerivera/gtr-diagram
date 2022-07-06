@@ -37,11 +37,6 @@ export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = 
   },
 
   getCssArea: (fret, string, span = 1) => {
-    // const stringsCount = get().config.stringsCount;
-    // const maxSpan = get().getMaxSpanFromString;
-
-    // span = span > stringsCount ? maxSpan(string) : span;
-
     const posStart = `pos${getColLetter(string)}${fret}-start`;
     const posEnd = `pos${getColLetter(string + span - 1)}${fret}-end`;
 

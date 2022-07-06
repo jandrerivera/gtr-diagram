@@ -1,58 +1,72 @@
 import { StateCreator } from 'zustand';
 import { State, Middlewares } from './store';
-import type { GridPosKey, CssArea, GridCoordinateType } from './grid.slice';
+import type { GridPosKey, GridCoordinateType } from './grid.slice';
 import { v4 as uuidv4 } from 'uuid';
 
-export enum NoteSymbols {
-  blank = 'BLANK',
-  default = 'DEFAULT',
-  circle = 'CIRCLE',
-  circleOutline = 'CIRCLE_OUTLINE',
-  square = 'SQUARE',
-  squareOutline = 'SQUARE_OUTLINE',
-  diamond = 'DIAMOND',
-  diamondOutline = 'DIAMOND_OUTLINE',
-  triangle = 'TRIANGLE',
-  triangleOutline = 'TRIANGLE_OUTLINE',
-  cross = 'CROSS',
-  crossOutline = 'CROSS_OUTLINE',
-  barre = 'BARRE',
-  barreOutline = 'BARRE_OUTLINE',
-  barreSquare = 'BARRE_SQUARE',
-  barreSuqareOutline = 'BARRE_SQUARE_OUTLINE',
-}
+export const UtilitySymbols = {
+  blank: 'BLANK',
+  default: 'DEFAULT',
+} as const;
 
-export type SymbolType = { style: NoteSymbols; label?: string; span?: number };
+export const BasicNoteSymbols = {
+  circle: 'CIRCLE',
+  circleOutline: 'CIRCLE_OUTLINE',
+  square: 'SQUARE',
+  squareOutline: 'SQUARE_OUTLINE',
+  diamond: 'DIAMOND',
+  diamondOutline: 'DIAMOND_OUTLINE',
+  triangle: 'TRIANGLE',
+  triangleOutline: 'TRIANGLE_OUTLINE',
+  cross: 'CROSS',
+  crossOutline: 'CROSS_OUTLINE',
+} as const;
+
+export const BarreSymbols = {
+  barre: 'BARRE',
+  barreOutline: 'BARRE_OUTLINE',
+  barreSquare: 'BARRE_SQUARE',
+  barreSuqareOutline: 'BARRE_SQUARE_OUTLINE',
+} as const;
+
+export type UtilitySymbolsType = typeof UtilitySymbols[keyof typeof UtilitySymbols];
+export type BasicNoteSymbolsType = typeof BasicNoteSymbols[keyof typeof BasicNoteSymbols];
+export type BarreSymbolsType = typeof BarreSymbols[keyof typeof BarreSymbols];
+
+export const NoteSymbols = { ...UtilitySymbols, ...BasicNoteSymbols, ...BarreSymbols } as const;
+export type NoteSymbolsType = typeof NoteSymbols[keyof typeof NoteSymbols];
+
+export type SymbolType = { style: NoteSymbolsType; label?: string; span?: number };
+
 type NoteId = string;
-
 export type NoteType = GridCoordinateType & {
-  id?: NoteId;
+  id: NoteId;
   childOf?: NoteId;
   symbol: SymbolType;
 };
 
 export type BarreType = GridCoordinateType & {
-  id?: NoteId;
+  id: NoteId;
   symbol: SymbolType & { span: number };
 };
 
+type withOptionalId<T> = Omit<T, 'id'> & { id?: NoteId };
+
 export type NotesSlice = {
   notePositions: NoteType[];
-  setNotePosition: (note: NoteType | BarreType) => NoteId;
+  setNotePosition: (note: withOptionalId<NoteType> | withOptionalId<BarreType>) => NoteId;
   updateNotePosition: (note: NoteType | BarreType) => void;
   getNoteAtPosition: (pos: GridPosKey) => NoteType | undefined;
   unsetNotePosition: (pos: GridPosKey) => void;
   resetNotePositions: () => void;
-  setBarrePosition: (note: BarreType) => void;
+  setBarrePosition: (note: withOptionalId<BarreType>) => void;
   updateBarreSize: (note: BarreType) => void;
   _unsetChildNotes: (parentId: NoteId) => void;
-  _addSpacerNotes: (note: BarreType, id: NoteId) => void;
+  _addSpacerNotes: (note: withOptionalId<BarreType>, id: NoteId) => void;
 };
 
 export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> = (set, get) => ({
   notePositions: [],
-  resetNotePositions: () =>
-    set((state) => ({ ...state, notePositions: [] }), false, 'NOTES/RESET_NOTE_POSITIONS'),
+  resetNotePositions: () => set({ notePositions: [] }, false, 'NOTES/RESET_NOTE_POSITIONS'),
   setNotePosition: (note) => {
     const id = uuidv4();
 
@@ -61,10 +75,7 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
         //Remove any notes in same Position
         let newState = [...state.notePositions].filter((old) => old.pos !== note.pos);
 
-        return {
-          ...state,
-          notePositions: [...newState, { ...note, id }],
-        };
+        return { notePositions: [...newState, { ...note, id }] };
       },
       false,
       'NOTES/SET_NOTE_POSITION'
@@ -76,13 +87,10 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
     return set(
       (state) => {
         let newState = [...state.notePositions].map((old) => (old.id === note.id ? note : old));
-        return {
-          ...state,
-          notePositions: newState,
-        };
+        return { notePositions: newState };
       },
       false,
-      'NOTES/SET_NOTE_POSITION'
+      'NOTES/UPDATE_NOTE_POSITION'
     );
   },
   unsetNotePosition: (pos) => {
@@ -137,11 +145,9 @@ export const createNotesSlice: StateCreator<State, Middlewares, [], NotesSlice> 
   _unsetChildNotes: (parentId) => {
     console.log('unsetChildNotes', parentId);
     return set(
-      (state) => {
-        return {
-          notePositions: [...state.notePositions].filter((note) => note.childOf !== parentId),
-        };
-      },
+      (state) => ({
+        notePositions: [...state.notePositions].filter((note) => note.childOf !== parentId),
+      }),
       false,
       'NOTES/UNSET_CHILD_NOTES'
     );

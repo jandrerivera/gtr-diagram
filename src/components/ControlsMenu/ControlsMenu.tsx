@@ -1,8 +1,13 @@
 import useStore from '../../store/store';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import { NoteSymbols } from '../../store/notes.slice';
+import {
+  ControlsMenuDisplaySymbols,
+  ControlsMenuDisplaySymbolsType,
+} from '../../store/controls.slice';
+
 import ControlsMenuIcon from './ControlsMenuIcon';
 import { RiDeleteBin2Line, RiDownload2Fill } from 'react-icons/ri';
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 
 const ControlsMenu = () => {
   const resetNotePositions = useStore((state) => state.resetNotePositions);
@@ -91,14 +96,13 @@ const SymbolSelectMenu = () => {
   const selectedControl = useStore((state) => state.selectedControl);
   const setSelectedControl = useStore((state) => state.setSelectedControl);
 
-  const symbolControls = Object.entries(NoteSymbols).filter(
-    ([name]) => name !== 'default' && name !== 'blank'
-  );
+  const symbolControls = Object.entries(ControlsMenuDisplaySymbols);
 
-  const onClickSymbolSelect = (clickedDymbol: NoteSymbols) => {
+  const onClickSymbolSelect = (clickedDymbol: ControlsMenuDisplaySymbolsType) => {
     if (selectedControl === clickedDymbol) return setSelectedControl(NoteSymbols.default);
     setSelectedControl(clickedDymbol);
   };
+
   return (
     <ul
       className={`

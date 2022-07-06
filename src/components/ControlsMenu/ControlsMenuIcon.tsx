@@ -13,16 +13,10 @@ import { ReactComponent as Icon_BARRE_OUTLINE } from '../../assets/svg/menu_barr
 import { ReactComponent as Icon_BARRE_SQUARE } from '../../assets/svg/menu_sbarre.svg';
 import { ReactComponent as Icon_BARRE_SQUARE_OUTLINE } from '../../assets/svg/menu_sbarre_outline.svg';
 
-import { NoteSymbols } from '../../store/notes.slice';
+import { ControlsMenuDisplaySymbolsType } from '../../store/controls.slice';
 
-type DisplaySymbolsType = {
-  [value in NoteSymbols]: JSX.Element | null;
-};
-
-const ControlsMenuIcon = ({ symbol }: { symbol: NoteSymbols }) => {
-  const symbolIcons: DisplaySymbolsType = {
-    BLANK: <></>,
-    DEFAULT: <></>,
+const ControlsMenuIcon = ({ symbol }: { symbol: ControlsMenuDisplaySymbolsType }) => {
+  const symbolIcons: Record<ControlsMenuDisplaySymbolsType, JSX.Element> = {
     CIRCLE: <Icon_CIRCLE className='fill-current' />,
     SQUARE: <Icon_SQUARE className='fill-current' />,
     DIAMOND: <Icon_DIAMOND className='fill-current' />,
