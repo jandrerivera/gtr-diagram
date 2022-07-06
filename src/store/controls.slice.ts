@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand';
 import { State, Middlewares } from './store';
-import { NoteSymbols, NoteSymbolsType, BasicNoteSymbols, BarreSymbols } from './notes.slice';
+import { NoteSymbols, NoteSymbolsType, BasicNoteSymbols } from './notes.slice';
 
 export type ControlsSlice = {
   selectedControl: NoteSymbolsType;
@@ -13,7 +13,3 @@ export const createControlsSlice: StateCreator<State, Middlewares, [], ControlsS
     return set({ selectedControl }, false, 'CONTROLS/SET_SELECTED_CONTROL');
   },
 });
-
-export const ControlsMenuDisplaySymbols = { ...BasicNoteSymbols, ...BarreSymbols } as const;
-export type ControlsMenuDisplaySymbolsType =
-  typeof ControlsMenuDisplaySymbols[keyof typeof ControlsMenuDisplaySymbols];

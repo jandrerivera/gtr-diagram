@@ -19,9 +19,6 @@ export const BasicNoteSymbols = {
   triangleOutline: 'TRIANGLE_OUTLINE',
   cross: 'CROSS',
   crossOutline: 'CROSS_OUTLINE',
-} as const;
-
-export const BarreSymbols = {
   barre: 'BARRE',
   barreOutline: 'BARRE_OUTLINE',
   barreSquare: 'BARRE_SQUARE',
@@ -30,9 +27,8 @@ export const BarreSymbols = {
 
 export type UtilitySymbolsType = typeof UtilitySymbols[keyof typeof UtilitySymbols];
 export type BasicNoteSymbolsType = typeof BasicNoteSymbols[keyof typeof BasicNoteSymbols];
-export type BarreSymbolsType = typeof BarreSymbols[keyof typeof BarreSymbols];
 
-export const NoteSymbols = { ...UtilitySymbols, ...BasicNoteSymbols, ...BarreSymbols } as const;
+export const NoteSymbols = { ...UtilitySymbols, ...BasicNoteSymbols } as const;
 export type NoteSymbolsType = typeof NoteSymbols[keyof typeof NoteSymbols];
 
 export type SymbolType = { style: NoteSymbolsType; label?: string; span?: number };

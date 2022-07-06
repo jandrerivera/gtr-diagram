@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import useStore from '../store/store';
 import type { GridCoordinateType } from '../store/grid.slice';
-import { NoteSymbols, BarreSymbols, NoteSymbolsType } from '../store/notes.slice';
+import { NoteSymbols, NoteSymbolsType } from '../store/notes.slice';
 
 const isBarre = (symbol?: NoteSymbolsType): boolean => {
   if (!symbol) return false;
-  return symbol in BarreSymbols;
+  return symbol.includes('BARRE');
 };
 
 const NoteOverlayButton = ({ gridCoord }: { gridCoord: GridCoordinateType }) => {
