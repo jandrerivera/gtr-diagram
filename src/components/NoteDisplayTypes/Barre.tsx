@@ -21,6 +21,7 @@ const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolCompone
   } = note;
 
   const VISUAL_ADJUST = 3.1; //visually adjusted to same width as Circle
+
   const MAX_BARRE_WIDTH = `${((span - 1 / VISUAL_ADJUST) / span) * 100}%`;
 
   const updateBarreSize = useStore((state) => state.updateBarreSize);
@@ -107,8 +108,8 @@ const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolCompone
             ref={ballRef}
             className={`
               group
-              absolute z-30 inset-0 h-full aspect-square rounded-full
-              flex justify-center items-center text-2xl font-bold 
+              absolute z-30 inset-0 h-full aspect-square
+              flex justify-center items-center
               ${!showDeleteControls && 'pointer-events-none'}
               ${outline ? 'text-slate-700' : ' text-white'}
             `}
@@ -126,9 +127,8 @@ const Barre = ({ note, outline = false, label, dragAreaRef }: BarreSymbolCompone
             className={`
             absolute z-20 h-full
             rounded-full
-            text-2xl font-bold text-white
-            border-4 border-slate-700 
-            ${outline ? 'bg-white text-bg-slate-700' : 'bg-slate-700 text-white'}
+            border-4 border-slate-700 text-white
+            ${outline ? 'bg-white' : 'bg-slate-700'}
           `}
             style={{ width }}
             onClick={toggleBarreControls}
@@ -159,13 +159,15 @@ const BarreDeleteIcon = ({ outline }: { outline: boolean }) => {
   return (
     <div
       className={`
-        absolute inset-4 flex justify-center items-center rounded-full
+        flex justify-center items-center rounded-full
+        w-7 h-7 md:w-6 md:h-6 p-1 md:p-0
         ${outline ? ' bg-white' : 'bg-slate-700'}
         `}
     >
       <RiDeleteBin2Fill
         className={`
-          w-6 h-6 transition-colors
+          transition-colors
+          w-full h-auto
           ${
             outline
               ? 'group-hover:fill-red-500 fill-slate-700'
@@ -183,11 +185,14 @@ const BarreResizeIcon = () => {
       className={`
           absolute right-0 translate-x-1/2
           flex justify-center items-center
-          w-6 h-full 
+          h-full 
         `}
     >
       <div
-        className={`group-hover:bg-pink-400 bg-pink-600 transition-colors p-1 w-6 h-6 rounded-full`}
+        className={`
+        group-hover:bg-pink-400 bg-pink-600
+        transition-colors rounded-full
+        w-7 h-7 p-1`}
       >
         <CgArrowsH className='w-full h-auto' />
       </div>

@@ -108,7 +108,7 @@ const BarreSquare = ({ note, outline = false, label, dragAreaRef }: BarreSymbolC
             className={`
               group
               absolute z-30 inset-0 h-full aspect-square
-              flex justify-center items-center text-2xl font-bold 
+              flex justify-center items-center
               ${!showDeleteControls && 'pointer-events-none'}
               ${outline ? 'text-slate-700' : ' text-white'}
             `}
@@ -125,9 +125,8 @@ const BarreSquare = ({ note, outline = false, label, dragAreaRef }: BarreSymbolC
           <animated.div
             className={`
             absolute z-20 h-full
-            text-2xl font-bold text-white
-            border-4 border-slate-700 
-            ${outline ? 'bg-white text-bg-slate-700' : 'bg-slate-700 text-white'}
+            border-4 border-slate-700 text-white
+            ${outline ? 'bg-white' : 'bg-slate-700'}
           `}
             style={{ width }}
             onClick={toggleBarreControls}
@@ -158,13 +157,15 @@ const BarreDeleteIcon = ({ outline }: { outline: boolean }) => {
   return (
     <div
       className={`
-        absolute inset-4 flex justify-center items-center rounded-full
+        flex justify-center items-center rounded-full
+        w-7 h-7 md:w-6 md:h-6 p-1 md:p-0
         ${outline ? ' bg-white' : 'bg-slate-700'}
         `}
     >
       <RiDeleteBin2Fill
         className={`
-          w-6 h-6 transition-colors
+          transition-colors
+          w-full h-auto
           ${
             outline
               ? 'group-hover:fill-red-500 fill-slate-700'
@@ -180,13 +181,16 @@ const BarreResizeIcon = () => {
   return (
     <div
       className={`
-          absolute right-0 translate-x-[60%]
+          absolute right-0 translate-x-[65%]
           flex justify-center items-center
-          w-6 h-full 
+          h-full 
         `}
     >
       <div
-        className={`group-hover:bg-pink-400 bg-pink-600 transition-colors p-1 w-6 h-6 rounded-full`}
+        className={`
+          group-hover:bg-pink-400 bg-pink-600 
+          transition-colors w-7 h-7 p-1
+          rounded-full`}
       >
         <CgArrowsH className='w-full h-auto' />
       </div>
