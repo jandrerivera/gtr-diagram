@@ -1,28 +1,28 @@
-import { useRef } from 'react';
+import { useRef } from 'react'
 
-import useStore from '../store/store';
-import { NoteType, NoteSymbols } from '../store/notes.slice';
-import NoteDisplayTypes from './NoteDisplayTypes';
+import useStore from '../store/store'
+import { NoteType, NoteSymbols } from '../store/notes.slice'
+import NoteDisplayTypes from './NoteDisplayTypes'
 
 const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
-  const { pos, string, cssArea, symbol } = note;
-  const getCssArea = useStore((state) => state.getCssArea);
-  const getMaxSpanFromString = useStore((state) => state.getMaxSpanFromString);
+  const { pos, string, cssArea, symbol } = note
+  const getCssArea = useStore((state) => state.getCssArea)
+  const getMaxSpanFromString = useStore((state) => state.getMaxSpanFromString)
 
-  const barreDragAreaRef = useRef<HTMLDivElement>(null);
-  const dragAreaSpan = getMaxSpanFromString(string);
-  const DRAG_AREA_OFFSET = `${100 / (dragAreaSpan - 1)}%`;
+  const barreDragAreaRef = useRef<HTMLDivElement>(null)
+  const dragAreaSpan = getMaxSpanFromString(string)
+  const DRAG_AREA_OFFSET = `${100 / (dragAreaSpan - 1)}%`
 
-  if (note?.symbol?.style === NoteSymbols.blank) return <></>;
+  if (note?.symbol?.style === NoteSymbols.blank) return <></>
 
   return (
     <>
       <div
         className={`
           relative z-20
-          flex items-center justify-center 
-          h-auto w-full 
-          cursor-pointer
+          flex h-auto w-full 
+          cursor-pointer items-center 
+          justify-center
           `}
         // ${note?.symbol?.style === NoteSymbols.blank && 'pointer-events-none'}
         // bg-pink-400 bg-opacity-50
@@ -39,7 +39,7 @@ const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
         className={`absolute inset-0`}
       />
     </>
-  );
-};
+  )
+}
 
-export default NoteOverlaySymbolCell;
+export default NoteOverlaySymbolCell

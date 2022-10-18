@@ -44,15 +44,3 @@ const TuningDisplay = () => {
   )
 }
 export default TuningDisplay
-
-/* .tuning-display--wrapper {
-  display: grid;
-  grid-gap: 4px;
-  grid-template-columns: 2fr repeat(12, minmax(0, 1fr)) 2fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: '. tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning tuning .';
-} */
-
-/* .tuning-display {
-  grid-area: tuning;
-} */
