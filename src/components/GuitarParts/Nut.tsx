@@ -1,13 +1,14 @@
 const Nut: React.FC<{}> = ({}) => {
   return (
     <div
+      style={{ gridArea: 'nut' }}
       className={`
           note-overlay__nut
-          relative z-0 pointer-events-none
-         bg-slate-400 rounded-t-lg -mx-1 -mt-1
+          pointer-events-none relative z-0
+         -mx-1 -mt-1 -mb-1 rounded-t-lg bg-slate-500
       `}
     />
-  );
-};
+  )
+}
 
-export default Nut;
+export default Nut
