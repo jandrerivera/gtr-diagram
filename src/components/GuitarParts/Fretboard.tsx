@@ -1,6 +1,6 @@
 import useMeasure from 'react-use-measure'
 import { useEffect, useRef } from 'react'
-import useStore from '../../store/store'
+import useChordChartStore from '../../store/chordChart/chordChart.store'
 
 import Strings from './Strings'
 import Frets from './Frets'
@@ -11,7 +11,7 @@ type FretboardProps = {
 }
 
 const Fretboard: React.FC<FretboardProps> = ({ frets, strings }) => {
-  const { stringsCount, fretsCount } = useStore((state) => state.config)
+  const { stringsCount, fretsCount } = useChordChartStore((state) => state.config)
 
   return (
     <div

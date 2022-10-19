@@ -1,18 +1,16 @@
-import useStore from '../store/store'
+import useChordChartStore from '../store/chordChart/chordChart.store'
 import { buildLabelGridTemplateRow } from '../utils/cssGridGenerator'
 
 const tuningAreaName = 'tuning'
 
 const TuningDisplay = () => {
-  const { tuning } = useStore((state) => state.config)
+  const { tuning } = useChordChartStore((state) => state.config)
 
-  const { stringsCount } = useStore((state) => state.config)
+  const { stringsCount } = useChordChartStore((state) => state.config)
 
   const gridTemplateColumns = `2fr repeat(${stringsCount * 2}, minmax(0, 1fr)) 2fr`
   const gridTemplateRows = `1fr`
   const gridTemplateAreas = `'${buildLabelGridTemplateRow(tuningAreaName, stringsCount, 1)}'`
-
-  console.log(gridTemplateAreas)
 
   return (
     <div

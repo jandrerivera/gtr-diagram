@@ -3,24 +3,20 @@ import { useEffect, useRef } from 'react'
 import ExportRegion from './components/ExportRegion'
 import ChordDiagram from './components/ChordDiagram'
 
-import './index.css'
 import ControlsMenu from './components/ControlsMenu/ControlsMenu'
-import useStore from './store/store'
+import useChordChartStore from './store/chordChart/chordChart.store'
 
-export const defaultSettings = {
-  stringsCount: 6,
-  fretsCount: 5,
-  defaultChordLabel: 'Cmaj7',
-  tuning: ['E', 'A', 'D', 'G', 'B', 'E'],
-}
+import './index.css'
 
 function App() {
-  const setConfig = useStore((state) => state.setConfig)
+  const setConfig = useChordChartStore((state) => state.setConfig)
 
   useEffect(() => {
     if (!setConfig) return
-
-    setConfig(defaultSettings)
+    setConfig({
+      stringsCount: 6,
+      tuning: ['E', 'A', 'D', 'G', 'B', 'E'],
+    })
   }, [])
 
   return (
