@@ -1,6 +1,6 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { NoteSymbols, NoteSymbolsType } from './chordChart/notes.slice'
+import { NoteSymbols, NoteSymbolsType } from './chordChart/slices/notes.slice'
 
 export type ControlsState = {
   selectedControl: NoteSymbolsType

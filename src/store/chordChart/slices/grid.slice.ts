@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand'
-import { State, Middlewares } from './chordChart.store'
+import { State, Middlewares } from '../chordChart.store'
 
 export type GridPosKey = string
 export type CssArea = string
@@ -18,7 +18,6 @@ export type GridSlice = {
   getCssArea: (fret: number, string: number, span?: number) => CssArea
   getMaxSpanFromString: (string: number) => number
   _generateCoordinateGrid: () => void
-  _movePos: (pos: GridPosKey, dir: 'left' | 'right', distance: number) => GridPosKey
 }
 
 export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = (set, get) => ({
@@ -58,14 +57,6 @@ export const createGridSlice: StateCreator<State, Middlewares, [], GridSlice> = 
       }
     }
     set({ gridCoordinates: coords }, false, 'GRID/GENERATE_COORDINATE_GRID')
-  },
-  _movePos: (pos, dir, distance) => {
-    const { fretsCount } = get().config
-    const posNum = parseInt(pos)
-    if (dir === 'left') return `${posNum - (fretsCount + 1) * distance}`
-    // if (dir === 'right') {
-    return `${posNum + (fretsCount + 1) * distance}`
-    // }
   },
 })
 

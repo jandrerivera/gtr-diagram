@@ -13,7 +13,7 @@ import { ReactComponent as Icon_BARRE_OUTLINE } from '../../assets/svg/menu_barr
 import { ReactComponent as Icon_BARRE_SQUARE } from '../../assets/svg/menu_sbarre.svg'
 import { ReactComponent as Icon_BARRE_SQUARE_OUTLINE } from '../../assets/svg/menu_sbarre_outline.svg'
 
-import { BasicNoteSymbolsType } from '../../store/chordChart/notes.slice'
+import { BasicNoteSymbolsType } from '../../store/chordChart/slices/notes.slice'
 
 const ControlsMenuIcon = ({ symbol }: { symbol: BasicNoteSymbolsType }) => {
   const symbolIcons: Record<BasicNoteSymbolsType, JSX.Element> = {

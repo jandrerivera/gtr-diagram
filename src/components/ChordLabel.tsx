@@ -3,7 +3,7 @@ import useChordChartStore from '../store/chordChart/chordChart.store'
 import useOnClickOutside from 'use-onclickoutside'
 import useOnKeyPress from '../hooks/useOnKeyPress'
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
-import { defaultConfig } from '../store/chordChart/config.slice'
+import { defaultConfig } from '../store/chordChart/slices/config.slice'
 
 const ChordLabel = () => {
   const wrapperDivRef = useRef<HTMLDivElement>(null)

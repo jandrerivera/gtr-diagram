@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import useMeasure from 'react-use-measure'
 import useChordChartStore from '../../store/chordChart/chordChart.store'
-import { BarreType } from '../../store/chordChart/notes.slice'
+import { BarreType } from '../../store/chordChart/slices/notes.slice'
 
 import { useSpring, animated } from 'react-spring'
 import { useDrag } from '@use-gesture/react'

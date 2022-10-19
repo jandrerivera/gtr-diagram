@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand'
-import { State, Middlewares } from './chordChart.store'
+import { State, Middlewares } from '../chordChart.store'
 
 import produce from 'immer'
 import { defaultConfig } from './config.slice'

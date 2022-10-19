@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 
 import useChordChartStore from '../store/chordChart/chordChart.store'
-import { NoteType, NoteSymbols } from '../store/chordChart/notes.slice'
+import { NoteType, NoteSymbols } from '../store/chordChart/slices/notes.slice'
 import NoteDisplayTypes from './NoteDisplayTypes'
 
 const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {

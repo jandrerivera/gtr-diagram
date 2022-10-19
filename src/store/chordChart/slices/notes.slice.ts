@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand'
-import { State, Middlewares } from './chordChart.store'
+import { State, Middlewares } from '../chordChart.store'
 import type { GridPosKey, GridCoordinateType } from './grid.slice'
 import { v4 as uuidv4 } from 'uuid'
 

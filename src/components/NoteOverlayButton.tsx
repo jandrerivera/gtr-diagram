@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { GridCoordinateType } from '../store/chordChart/grid.slice'
-import { NoteSymbols, NoteSymbolsType } from '../store/chordChart/notes.slice'
+import type { GridCoordinateType } from '../store/chordChart/slices/grid.slice'
+import { NoteSymbols, NoteSymbolsType } from '../store/chordChart/slices/notes.slice'
 import useControlsStore from '../store/controls.store'
 import useChordChartStore from '../store/chordChart/chordChart.store'
 

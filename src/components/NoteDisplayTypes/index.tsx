@@ -12,7 +12,7 @@ import type {
   BarreType,
   NoteSymbolsType,
   SymbolType,
-} from '../../store/chordChart/notes.slice'
+} from '../../store/chordChart/slices/notes.slice'
 
 export type SymbolComponent = {
   note?: NoteType

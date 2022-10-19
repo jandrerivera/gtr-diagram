@@ -4,7 +4,7 @@ import {
   NoteSymbols,
   BasicNoteSymbols,
   BasicNoteSymbolsType,
-} from '../../store/chordChart/notes.slice'
+} from '../../store/chordChart/slices/notes.slice'
 
 import ControlsMenuIcon from './ControlsMenuIcon'
 import { RiDeleteBin2Line, RiDownload2Fill } from 'react-icons/ri'
