@@ -1,7 +1,7 @@
-import NoteOverlayGrid from './NoteOverlayGrid';
-import ChordLabel from './ChordLabel';
-import TuningDisplay from './TuningDisplay';
-import useStore from '../store/store';
+import NoteOverlayGrid from './NoteOverlayGrid'
+import ChordLabel from './ChordLabel'
+import TuningDisplay from './TuningDisplay'
+import useChordChartStore from '../store/chordChart/chordChart.store'
 
 const ChordDiagram = () => {
   // const { enabled: chordLabelenabled } = useStore((state) => state.chordLabel);
@@ -10,15 +10,15 @@ const ChordDiagram = () => {
     <div
       className={`
         mx-auto
-        max-w-2xl w-full h-auto
-        flex flex-col
-        justify-start items-center
+        flex h-auto w-full
+        max-w-2xl flex-col
+        items-center justify-start
       `}
     >
       {/* {chordLabelenabled && <ChordLabel />} */}
       <TuningDisplay />
       <NoteOverlayGrid />
     </div>
-  );
-};
-export default ChordDiagram;
+  )
+}
+export default ChordDiagram

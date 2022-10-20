@@ -1,59 +1,58 @@
-import React, { useState, useEffect, useRef } from 'react';
-import useStore from '../store/store';
-import useOnClickOutside from 'use-onclickoutside';
-import useOnKeyPress from '../hooks/useOnKeyPress';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-
-import { defaultSettings } from '../App';
+import React, { useState, useEffect, useRef } from 'react'
+import useChordChartStore from '../store/chordChart/chordChart.store'
+import useOnClickOutside from 'use-onclickoutside'
+import useOnKeyPress from '../hooks/useOnKeyPress'
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { defaultConfig } from '../store/chordChart/slices/config.slice'
 
 const ChordLabel = () => {
-  const wrapperDivRef = useRef<HTMLDivElement>(null);
+  const wrapperDivRef = useRef<HTMLDivElement>(null)
 
-  const { enabled, typed, styled } = useStore((state) => state.chordLabel);
-  const setChordLabel = useStore((state) => state.setChordLabel);
-  const setChordLabelEnabled = useStore((state) => state.setChordLabelEnabled);
+  const { enabled, typed, styled } = useChordChartStore((state) => state.chordLabel)
+  const setChordLabel = useChordChartStore((state) => state.setChordLabel)
+  const setChordLabelEnabled = useChordChartStore((state) => state.setChordLabelEnabled)
 
-  const [inputValue, setInputValue] = useState(typed);
-  const [showInputField, setShowInputField] = useState(false);
+  const [inputValue, setInputValue] = useState(typed)
+  const [showInputField, setShowInputField] = useState(false)
 
   useEffect(() => {
-    if (!enabled) return;
-    resetInputField();
-  }, [enabled]);
+    if (!enabled) return
+    resetInputField()
+  }, [enabled])
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+    setInputValue(e.target.value)
+  }
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    console.log('submit');
-    setChordLabel(inputValue);
+    console.log('submit')
+    setChordLabel(inputValue)
 
-    setShowInputField(false);
+    setShowInputField(false)
 
     if (inputValue === '') {
-      setChordLabelEnabled();
+      setChordLabelEnabled()
     }
-  };
+  }
 
   const onCancelHandler = () => {
-    setShowInputField(false);
-    resetInputField();
-  };
+    setShowInputField(false)
+    resetInputField()
+  }
 
   const resetInputField = () => {
     if (typed === '' || styled === '') {
-      setChordLabel(defaultSettings.defaultChordLabel);
-      setInputValue(defaultSettings.defaultChordLabel);
-      return;
+      setChordLabel(defaultConfig.defaultChordLabel)
+      setInputValue(defaultConfig.defaultChordLabel)
+      return
     }
-    setInputValue(typed);
-  };
+    setInputValue(typed)
+  }
 
-  useOnKeyPress('Escape', () => onCancelHandler());
-  useOnClickOutside(wrapperDivRef, () => onCancelHandler());
+  useOnKeyPress('Escape', () => onCancelHandler())
+  useOnClickOutside(wrapperDivRef, () => onCancelHandler())
 
   return (
     <div
@@ -128,7 +127,7 @@ const ChordLabel = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default ChordLabel;
+export default ChordLabel

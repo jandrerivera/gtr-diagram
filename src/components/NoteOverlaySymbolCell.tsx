@@ -1,13 +1,13 @@
 import { useRef } from 'react'
 
-import useStore from '../store/store'
-import { NoteType, NoteSymbols } from '../store/notes.slice'
+import useChordChartStore from '../store/chordChart/chordChart.store'
+import { NoteType, NoteSymbols } from '../store/chordChart/slices/notes.slice'
 import NoteDisplayTypes from './NoteDisplayTypes'
 
 const NoteOverlaySymbolCell = ({ note }: { note: NoteType }) => {
   const { pos, string, cssArea, symbol } = note
-  const getCssArea = useStore((state) => state.getCssArea)
-  const getMaxSpanFromString = useStore((state) => state.getMaxSpanFromString)
+  const getCssArea = useChordChartStore((state) => state.getCssArea)
+  const getMaxSpanFromString = useChordChartStore((state) => state.getMaxSpanFromString)
 
   const barreDragAreaRef = useRef<HTMLDivElement>(null)
   const dragAreaSpan = getMaxSpanFromString(string)
