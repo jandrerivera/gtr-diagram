@@ -49,6 +49,32 @@ const SymbolSelectSubMenu = () => {
   )
 }
 
+export const FretMarketToggleSubMenu = () => {
+  const toggleFretMarker = useChordChartStore((state) => state.toggleFretMarker)
+
+  return (
+    <ul
+      className={`
+        mx-auto mb-2
+        flex flex-col items-stretch justify-start
+        divide-y divide-slate-500 overflow-auto
+        rounded-lg border-2 border-slate-500 bg-white 
+        text-xs
+        shadow-lg
+      `}
+    >
+      <li>
+        <button
+          onClick={toggleFretMarker}
+          className={` flex w-full items-center justify-start gap-1 p-1 text-slate-500 hover:bg-neutral-200`}
+        >
+          <div>Fret Marker</div>
+        </button>
+      </li>
+    </ul>
+  )
+}
+
 export const ResetButtonSubMenu = () => {
   const resetNotePositions = useChordChartStore((state) => state.resetNotePositions)
 
@@ -136,8 +162,9 @@ const ControlsMenu = () => {
   return (
     <div>
       <SymbolSelectSubMenu />
+      <FretMarketToggleSubMenu />
       <ResetButtonSubMenu />
-      <ExportButtonSubMenu />
+      {/* <ExportButtonSubMenu /> */}
     </div>
   )
 }

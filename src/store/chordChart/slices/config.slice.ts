@@ -6,10 +6,9 @@ export type ConfigSlice = {
   config: {
     stringsCount: number
     fretsCount: number
-    defaultChordLabel: string
     tuning: string[]
   }
-  setConfig: (config?: Partial<ConfigType>) => void
+  init: (config?: Partial<ConfigType>) => void
 }
 
 export type ConfigType = ConfigSlice['config']
@@ -17,13 +16,12 @@ export type ConfigType = ConfigSlice['config']
 export const defaultConfig: ConfigType = {
   stringsCount: 6,
   fretsCount: 5,
-  defaultChordLabel: 'C',
   tuning: ['E', 'A', 'D', 'G', 'B', 'E'],
 }
 
 export const createConfigSlice: StateCreator<State, Middlewares, [], ConfigSlice> = (set, get) => ({
   config: defaultConfig,
-  setConfig: (newConfig) => {
+  init: (newConfig) => {
     if (newConfig) {
       set(
         produce((state) => {
@@ -32,10 +30,6 @@ export const createConfigSlice: StateCreator<State, Middlewares, [], ConfigSlice
         false,
         'CONFIG/SET_CONFIG'
       )
-    }
-
-    if (newConfig?.defaultChordLabel) {
-      get().setChordLabel(newConfig.defaultChordLabel)
     }
 
     get()._generateCoordinateGrid()

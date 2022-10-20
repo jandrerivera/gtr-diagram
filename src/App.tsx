@@ -9,7 +9,7 @@ import useChordChartStore from './store/chordChart/chordChart.store'
 import './index.css'
 
 function App() {
-  const setConfig = useChordChartStore((state) => state.setConfig)
+  const setConfig = useChordChartStore((state) => state.init)
 
   useEffect(() => {
     if (!setConfig) return

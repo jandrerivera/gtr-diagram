@@ -1,8 +1,6 @@
 import { StateCreator } from 'zustand'
 import { State, Middlewares } from '../chordChart.store'
-
 import produce from 'immer'
-import { defaultConfig } from './config.slice'
 
 export type ChordLabelSlice = {
   chordLabel: {
@@ -14,17 +12,17 @@ export type ChordLabelSlice = {
   setChordLabelEnabled: () => void
 }
 
-const defaultChordLabel = {
-  enabled: false,
-  typed: defaultConfig.defaultChordLabel,
-  styled: defaultConfig.defaultChordLabel,
-}
+export const defaultChordLabel = 'C'
 
 export const createChordLabelSlice: StateCreator<State, Middlewares, [], ChordLabelSlice> = (
   set,
   get
 ) => ({
-  chordLabel: defaultChordLabel,
+  chordLabel: {
+    enabled: false,
+    typed: defaultChordLabel,
+    styled: defaultChordLabel,
+  },
   setChordLabel: (payload) =>
     set(
       produce((state) => {

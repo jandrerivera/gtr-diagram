@@ -3,7 +3,7 @@ import useChordChartStore from '../store/chordChart/chordChart.store'
 import useOnClickOutside from 'use-onclickoutside'
 import useOnKeyPress from '../hooks/useOnKeyPress'
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
-import { defaultConfig } from '../store/chordChart/slices/config.slice'
+import { defaultChordLabel } from '../store/chordChart/slices/chordLabel.slice'
 
 const ChordLabel = () => {
   const wrapperDivRef = useRef<HTMLDivElement>(null)
@@ -44,8 +44,8 @@ const ChordLabel = () => {
 
   const resetInputField = () => {
     if (typed === '' || styled === '') {
-      setChordLabel(defaultConfig.defaultChordLabel)
-      setInputValue(defaultConfig.defaultChordLabel)
+      setChordLabel(defaultChordLabel)
+      setInputValue(defaultChordLabel)
       return
     }
     setInputValue(typed)
