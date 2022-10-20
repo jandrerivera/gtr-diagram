@@ -13,19 +13,27 @@ export type FretMarkerSlice = {
   changeFretLabel: (dir: 'increase' | 'decrease') => void
 }
 
+const defaultFretMarker = {
+  enabled: false,
+  pos: 1,
+  label: 5,
+}
+
 export const createFretMarkerSlice: StateCreator<State, Middlewares, [], FretMarkerSlice> = (
   set,
   get
 ) => ({
-  fretMarker: {
-    enabled: true,
-    pos: 1,
-    label: 5,
-  },
+  fretMarker: defaultFretMarker,
   toggleFretMarker: () => {
     set(
       produce((state) => {
         state.fretMarker.enabled = !state.fretMarker.enabled
+
+        //Reset marker when you hide it
+        if (state.fretMarker.enabled === false) {
+          state.fretMarker.pos = defaultFretMarker.pos
+          state.fretMarker.label = defaultFretMarker.label
+        }
       }),
       false,
       'FRET_MARKET/TOGGLE'

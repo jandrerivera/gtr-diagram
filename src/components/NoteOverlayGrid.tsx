@@ -68,7 +68,7 @@ export const FretMarker = () => {
     <div
       ref={ref}
       style={{ gridArea: `fret${pos}` }}
-      className={classNames('-m-2 grid cursor-pointer grid-cols-3 grid-rows-3 rounded-xl p-2', {
+      className={classNames('-m-2 grid cursor-pointer grid-cols-3 grid-rows-3 rounded-xl p-1', {
         'bg-slate-100': showControls,
       })}
     >
