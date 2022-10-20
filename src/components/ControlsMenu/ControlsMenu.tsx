@@ -1,99 +1,15 @@
 import useChordChartStore from '../../store/chordChart/chordChart.store'
+import useControlsStore from '../../store/controls.store'
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image'
 import {
   NoteSymbols,
   BasicNoteSymbols,
   BasicNoteSymbolsType,
 } from '../../store/chordChart/slices/notes.slice'
-
 import ControlsMenuIcon from './ControlsMenuIcon'
 import { RiDeleteBin2Line, RiDownload2Fill } from 'react-icons/ri'
-import useControlsStore from '../../store/controls.store'
 
-const ControlsMenu = () => {
-  const resetNotePositions = useChordChartStore((state) => state.resetNotePositions)
-
-  // const toggleChordLabel = useStore((state) => state.toggleChordLabel);
-
-  const handleExport = () => {
-    const exportRegion = document.getElementById('exportRegion')
-
-    if (exportRegion === null) {
-      return
-    }
-    console.log('export')
-
-    toJpeg(exportRegion, { quality: 0.95 })
-      .then((dataUrl) => {
-        const link = document.createElement('a')
-        link.download = 'chord-chart.jpg'
-        link.href = dataUrl
-        link.click()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  return (
-    <div className=''>
-      <SymbolSelectMenu />
-
-      <ul
-        className={`
-        mx-auto mb-2
-        flex flex-col items-stretch justify-start
-        divide-y divide-slate-500 overflow-auto
-        rounded-lg border-2 border-slate-500 bg-white 
-        text-xs
-        shadow-lg
-      `}
-      >
-        <li>
-          <button
-            onClick={resetNotePositions}
-            className={` flex w-full items-center justify-start gap-1 p-1 text-slate-500 hover:bg-neutral-200`}
-          >
-            <RiDeleteBin2Line className='w-6  fill-slate-500' />
-            <div>Reset</div>
-          </button>
-        </li>
-      </ul>
-
-      <ul
-        className={`
-        mx-auto mb-2
-        flex flex-col items-stretch justify-start
-        divide-y divide-slate-500 overflow-auto
-        rounded-lg border-2 border-slate-500 bg-white 
-        text-xs
-        shadow-lg
-      `}
-      >
-        <li>
-          <button
-            onClick={handleExport}
-            className={` flex w-full items-center justify-start gap-1 p-1 text-slate-500 hover:bg-neutral-200`}
-          >
-            <RiDownload2Fill className='w-6 fill-slate-500' />
-            <div>Export</div>
-          </button>
-        </li>
-        {/* <li>
-        <button
-          onClick={() => toggleChordLabel()}
-          className='w-full py-2 px-4 text-slate-500 hover:bg-neutral-200 '
-        >
-          Chord Label
-        </button>
-      </li>
-       */}
-      </ul>
-    </div>
-  )
-}
-
-const SymbolSelectMenu = () => {
+const SymbolSelectSubMenu = () => {
   const selectedControl = useControlsStore((state) => state.selectedControl)
   const setSelectedControl = useControlsStore((state) => state.setSelectedControl)
 
@@ -130,6 +46,99 @@ const SymbolSelectMenu = () => {
         </li>
       ))}
     </ul>
+  )
+}
+
+export const ResetButtonSubMenu = () => {
+  const resetNotePositions = useChordChartStore((state) => state.resetNotePositions)
+
+  return (
+    <ul
+      className={`
+        mx-auto mb-2
+        flex flex-col items-stretch justify-start
+        divide-y divide-slate-500 overflow-auto
+        rounded-lg border-2 border-slate-500 bg-white 
+        text-xs
+        shadow-lg
+      `}
+    >
+      <li>
+        <button
+          onClick={resetNotePositions}
+          className={` flex w-full items-center justify-start gap-1 p-1 text-slate-500 hover:bg-neutral-200`}
+        >
+          <RiDeleteBin2Line className='w-6  fill-slate-500' />
+          <div>Reset</div>
+        </button>
+      </li>
+    </ul>
+  )
+}
+
+export const ExportButtonSubMenu = () => {
+  const handleExport = () => {
+    const exportRegion = document.getElementById('exportRegion')
+
+    if (exportRegion === null) {
+      return
+    }
+    console.log('export')
+
+    toJpeg(exportRegion, { quality: 0.95 })
+      .then((dataUrl) => {
+        const link = document.createElement('a')
+        link.download = 'chord-chart.jpg'
+        link.href = dataUrl
+        link.click()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  return (
+    <ul
+      className={`
+        mx-auto mb-2
+        flex flex-col items-stretch justify-start
+        divide-y divide-slate-500 overflow-auto
+        rounded-lg border-2 border-slate-500 bg-white 
+        text-xs
+        shadow-lg
+      `}
+    >
+      <li>
+        <button
+          onClick={handleExport}
+          className={` flex w-full items-center justify-start gap-1 p-1 text-slate-500 hover:bg-neutral-200`}
+        >
+          <RiDownload2Fill className='w-6 fill-slate-500' />
+          <div>Export</div>
+        </button>
+      </li>
+      {/* <li>
+        <button
+          onClick={() => toggleChordLabel()}
+          className='w-full py-2 px-4 text-slate-500 hover:bg-neutral-200 '
+        >
+          Chord Label
+        </button>
+      </li>
+       */}
+    </ul>
+  )
+}
+
+const ControlsMenu = () => {
+  // const toggleChordLabel = useStore((state) => state.toggleChordLabel);
+
+  return (
+    <div>
+      <SymbolSelectSubMenu />
+      <ResetButtonSubMenu />
+      <ExportButtonSubMenu />
+    </div>
   )
 }
 
